@@ -2,6 +2,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
+import { ToastAndroid } from 'react-native';
+import { extractErrorMessage } from '../Utils/extractError';
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -19,7 +21,7 @@ export default function useCachedResources() {
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
-        console.warn(e);
+        ToastAndroid.show(extractErrorMessage(e), 5000);
       } finally {
         setLoadingComplete(true);
         SplashScreen.hideAsync();
