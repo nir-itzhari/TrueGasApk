@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import store from './redux/Store';
 import { Provider } from 'react-redux';
 import Navigation from './navigation';
+import { AuthProvider } from './navigation/AuthContext';
 
 
 
@@ -22,13 +23,14 @@ const App = () => {
 
     return (
       <SafeAreaProvider>
-        <Provider store={store}>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
-        </Provider>
+        <AuthProvider>
+          <Provider store={store}>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </Provider>
+        </AuthProvider>
       </SafeAreaProvider>
     );
-    // }
   }
 }
 export default App

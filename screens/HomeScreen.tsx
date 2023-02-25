@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { StyleSheet, Button, ToastAndroid } from 'react-native';
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 import { CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import authService from './../Services/AuthServices';
 import store from './../redux/Store';
 import { createNavigationContainerRef } from '@react-navigation/native';
+import { RootTabScreenProps } from '../types';
+import { AuthContext } from '../navigation/AuthContext';
 
 
 
@@ -23,25 +24,29 @@ export default function HomeScreen({ navigation, route }: RootTabScreenProps<'Ho
     setToken(tokenFromStorage);
   };
 
+  const { logout } = useContext(AuthContext);
 
+  // const handlePressRemove = async (): Promise<void> => {
+  //   await AsyncStorage.removeItem("token");
+  //   store.getState().authState.token = null
+  //   store.getState().authState.user = null
+  //   // authService.logout();
+  //   // navigation.replace("Login")
 
-  const handlePressRemove = async (): Promise<void> => {
-    await AsyncStorage.removeItem("token");
-    store.getState().authState.token = null
-    store.getState().authState.user = null
-    // authService.logout();
-    navigation.replace("Login")
+  //   ToastAndroid.show("להתראות!", 3000);
 
-    ToastAndroid.show("להתראות!", 3000);
-
-  };
+  // };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       {user_id && <Text style={styles.title}>Welcome {user_id}</Text>}
       {/* <Button title='show TOKEN' onPress={handlePress} /> */}
-      <Button title='התנתק' onPress={handlePressRemove} />
+      <Button title='התנתק' onPress={() => {
+        logout()
+        ToastAndroid.show("להתראות!", 3000);
+
+      }} />
 
       {token !== null && <Text style={styles.title}>{token}</Text>}
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
