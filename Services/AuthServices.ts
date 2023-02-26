@@ -1,10 +1,11 @@
 import { loginAction, logoutAction, registerAction } from "../redux/AuthState";
-import store from "../redux/Store";
-import config from "../Utils/Config";
-import axios from "axios";
 import CredentialsModel from "../Models/CredentialsModel";
-import UserModel from "../Models/UserModel";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import UserModel from "../Models/UserModel";
+import config from "../Utils/Config";
+import store from "../redux/Store";
+import axios from "axios";
+
 
 
 
@@ -16,15 +17,25 @@ class AuthService {
         store.dispatch(registerAction(token));
     }
 
-    public login(token: string): string {
-        // const response = await axios.post<string>(config.loginUrl, credentials);
-        // const token = response.data;
-        store.dispatch(loginAction(token));
+
+
+
+    public async login(credentials: CredentialsModel): Promise<string> {
+        const response = await axios.post<string>(config.loginUrl, credentials);
+        const token = response.data;
+        if (token) {
+            await AsyncStorage.setItem("token", token);
+            store.dispatch(loginAction(token));
+        }
+
         return token;
+
     }
 
-    public logout(): void {
+    public async logout(): Promise<void> {
         store.dispatch(logoutAction());
+        await AsyncStorage.removeItem("token");
+
     }
 
     public async isLoggedIn(): Promise<boolean> {

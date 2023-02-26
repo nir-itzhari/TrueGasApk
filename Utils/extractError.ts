@@ -1,4 +1,4 @@
-export  const extractErrorMessage = (err: any): string => {
+export const extractErrorMessage = (err: any): string => {
     if (typeof err === "string") return err;
 
     if (typeof err.response?.data === "string") return err.response.data;

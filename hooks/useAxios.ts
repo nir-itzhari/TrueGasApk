@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios, { AxiosResponse, Method } from 'axios';
-import NetInfo from '@react-native-community/netinfo';
 import CredentialsModel from './../Models/CredentialsModel';
 
 export type UseAxiosHookResponse<T> = {
@@ -43,3 +42,5 @@ const useAxios = <T extends unknown>(options: UseAxiosHookOptions): UseAxiosHook
 };
 
 export default useAxios;
+
+

@@ -1,11 +1,11 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useState } from "react";
 import { useColorScheme, StyleSheet } from "react-native";
-import BottomTabNav from "../components/BottomTabNav";
+import { RootStackParamList } from "../types";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useState } from "react";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
-import { RootStackParamList, RootTabParamList } from "../types";
+import BottomTabNav from "../components/BottomTabNav";
 
 
 
@@ -17,35 +17,7 @@ const AppStack = () => {
     const [token, setToken] = useState<string>(null)
 
 
-    // useEffect(() => {
-    //   setIsReady(false);
-    //   const getToken = async () => {
-    //     try {
-    //       const tokenFromStorage = await AsyncStorage.getItem('token');
-    //       if (tokenFromStorage) {
-    //         const decodedToken: any = jwtDecode(tokenFromStorage);
-    //         store.getState().authState.user = decodedToken;
-    //         setToken(tokenFromStorage)
-    //       }
-    //     } catch (error) {
-    //       console.log("Invalid token:", error);
-    //     } finally {
-    //       setTimeout(() => {
-    //         setIsReady(true);
-    //         SplashScreen.hideAsync()
-    //       }, 1000);
-    //     }
-    //   };
-    //   getToken()
-    // }, []);
-
-    // if (!isReady) {
-    //   return <ActivityIndicator size="large" style={styles.container} />
-    // }
-
-
     return (
-        // <Stack.Navigator initialRouteName={isReady && token !== null ? "Root" : "Login"}>
         <Stack.Navigator>
             <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
@@ -58,15 +30,14 @@ const AppStack = () => {
 
 export default AppStack
 
-// const BottomTab = createBottomTabNavigator<RootTabParamList>();
-
 function BottomTabNavigator() {
     const colorScheme = useColorScheme();
 
     return (
-        <>
+        <SafeAreaProvider>
             <BottomTabNav />
-        </>
+        </SafeAreaProvider>
+
     );
 }
 

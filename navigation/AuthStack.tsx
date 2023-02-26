@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "../screens/LoginScreen";
 import { AuthStackParamList } from "../types";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import LoginScreen from "../screens/LoginScreen";
 
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -8,9 +9,11 @@ const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthStackScreens = () => {
     return (
-        <AuthStack.Navigator>
-            <AuthStack.Screen name="Login" component={LoginScreen} />
-        </AuthStack.Navigator>
+        <SafeAreaProvider>
+            <AuthStack.Navigator>
+                <AuthStack.Screen name="Login" component={LoginScreen} />
+            </AuthStack.Navigator>
+        </SafeAreaProvider>
     );
 }
 

@@ -7,7 +7,6 @@ export class AuthState {
 
 }
 
-
 export enum AuthActionType {
     Register = "Register",
     Login = "Login",

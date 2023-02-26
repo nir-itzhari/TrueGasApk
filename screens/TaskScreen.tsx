@@ -1,7 +1,7 @@
-import React from 'react';
+import { RootTabScreenProps } from '../types';
 import { View, StyleSheet } from 'react-native';
 import TasksFlatList from '../components/taskFlatList/tasksFlatList';
-import { RootTabScreenProps } from '../types';
+import React from 'react';
 
 
 

@@ -1,15 +1,11 @@
-import { StyleSheet, TextInput, Button, TouchableOpacity, Image, Platform, ToastAndroid } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { useState, useEffect, useContext } from 'react';
-import { Text, View } from '../components/Themed';
-import authService from '../Services/AuthServices';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useForm, Controller, SubmitHandler, FieldValues } from 'react-hook-form';
-import useAxios from '../hooks/useAxios';
-import config from './../Utils/Config';
-import { extractErrorMessage } from './../Utils/extractError';
-import { AuthContext } from './../navigation/AuthContext';
+import { StyleSheet, TextInput, TouchableOpacity, Image, Platform } from 'react-native';
+import { useForm, Controller, FieldValues } from 'react-hook-form';
 import { AuthStackScreenProps } from '../types';
+import { Text, View } from '../components/Themed';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
+// import useAxios from '../hooks/useAxios';
 
 
 
@@ -19,33 +15,13 @@ export default function LoginScreen({ navigation, route }: AuthStackScreenProps<
     const [isPasswordFocused, setIsPasswordFocused] = useState(null);
     const { control, handleSubmit, formState: { errors } } = useForm();
     const imageSource = require('../assets/images/truegas.jpg')
+    const { login } = useAuth()
 
-    const { login } = useContext(AuthContext);
 
-
-    // const { sendRequest, data, error } = useAxios({
-    //     apiUrl: config.loginUrl,
-    //     method: 'POST',
-    // });
-
-    // const submit: SubmitHandler<FieldValues> = async (credentials): Promise<void> => {
-    //     try {
-    //         const response = await sendRequest({ credentials }, 'post');
-    //         const JSONtokenResponse = response.data
-
-    //         if (JSONtokenResponse) {
-    //             const token: string = JSON.stringify(JSONtokenResponse);
-    //             AsyncStorage.setItem("token", token);
-    //             authService.login(token)
-    //             // navigation.navigate("Root", { screen: "Tasks" })
-    //             ToastAndroid.show("התחברת בהצלחה!", 5000);
-    //         }
-
-    //     } catch (error: any) {
-    //         ToastAndroid.show(extractErrorMessage(error), 5000);
-    //     }
-    // };
-
+    const submit: (credentials: FieldValues) => Promise<void> = async (credentials) => {
+        const { user_id, password } = credentials;
+        login({ user_id, password })
+    }
 
     const handleUserIdChange = (value: string) => {
         return value.replace(/[^0-9]/g, '');
@@ -56,11 +32,11 @@ export default function LoginScreen({ navigation, route }: AuthStackScreenProps<
     };
 
 
-    // useEffect(() => {
-    //     navigation.setOptions({
-    //         title: "כניסה"
-    //     })
-    // }, [])
+    useEffect(() => {
+        navigation.setOptions({
+            title: "כניסה"
+        })
+    }, [])
 
 
 
@@ -119,7 +95,7 @@ export default function LoginScreen({ navigation, route }: AuthStackScreenProps<
             <TouchableOpacity disabled>
                 <Text style={styles.forgot_button}>שכחת סיסמה? לחץ כאן!</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.loginBtn} onPress={() => login()}>
+            <TouchableOpacity style={styles.loginBtn} onPress={handleSubmit(submit)}>
                 <Text style={styles.textButton}>כניסה</Text>
             </TouchableOpacity>
         </View>

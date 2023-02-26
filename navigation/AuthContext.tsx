@@ -1,8 +1,13 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import { extractErrorMessage } from '../Utils/extractError';
+import { SubmitHandler } from 'react-hook-form';
+import { ToastAndroid } from 'react-native';
+import CredentialsModel from './../Models/CredentialsModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import authService from './../Services/AuthServices';
 
-type AuthContextType = {
-    login: () => void;
+export type AuthContextType = {
+    login: (credentials: CredentialsModel) => Promise<void>
     logout: () => void;
     isLoading: boolean;
     token: string | null;
@@ -13,7 +18,9 @@ type AuthProviderProps = {
 };
 
 export const AuthContext = createContext<AuthContextType>({
-    login: () => { },
+    login: (credentials: CredentialsModel): Promise<void> => {
+        return Promise.resolve();
+    },
     logout: () => { },
     isLoading: false,
     token: null,
@@ -24,29 +31,49 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [token, setToken] = useState<string | null>(null);
 
-    const login = async () => {
-        setIsLoading(true);
-        setToken('qwdjoiqwdj');
-        await AsyncStorage.setItem('token', "hfgalkwfhe")
-        setIsLoading(false)
+
+    const login: SubmitHandler<CredentialsModel> = async (credentials): Promise<void> => {
+
+        try {
+            const token = await authService.login(credentials)
+            if (token) {
+                setIsLoading(true);
+                setToken(token)
+                await AsyncStorage.setItem("token", token);
+                ToastAndroid.show("התחברת בהצלחה!", 5000);
+            }
+
+        } catch (error: any) {
+            ToastAndroid.show(extractErrorMessage(error), 5000);
+        }
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 1000)
     };
 
     const logout = async () => {
+        setIsLoading(true)
+        await authService.logout()
         setToken(null);
-        setIsLoading(false);
-        await AsyncStorage.removeItem('token')
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 500)
     };
 
     const isLoggedIn = async () => {
         try {
             setIsLoading(true)
-            const token = await AsyncStorage.getItem('token')
+            let token = await AsyncStorage.getItem('token')
             setToken(token)
-            setIsLoading(false)
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 1000)
         } catch (error) {
             console.log('logged in error: ' + error)
         }
-        setIsLoading(false);
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 1000)
     };
 
     useEffect(() => {

@@ -9,6 +9,7 @@ import store from './../redux/Store';
 import { createNavigationContainerRef } from '@react-navigation/native';
 import { RootTabScreenProps } from '../types';
 import { AuthContext } from '../navigation/AuthContext';
+import useAuth from './../hooks/useAuth';
 
 
 
@@ -24,24 +25,12 @@ export default function HomeScreen({ navigation, route }: RootTabScreenProps<'Ho
     setToken(tokenFromStorage);
   };
 
-  const { logout } = useContext(AuthContext);
-
-  // const handlePressRemove = async (): Promise<void> => {
-  //   await AsyncStorage.removeItem("token");
-  //   store.getState().authState.token = null
-  //   store.getState().authState.user = null
-  //   // authService.logout();
-  //   // navigation.replace("Login")
-
-  //   ToastAndroid.show("להתראות!", 3000);
-
-  // };
+  const { logout } = useAuth();
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       {user_id && <Text style={styles.title}>Welcome {user_id}</Text>}
-      {/* <Button title='show TOKEN' onPress={handlePress} /> */}
       <Button title='התנתק' onPress={() => {
         logout()
         ToastAndroid.show("להתראות!", 3000);

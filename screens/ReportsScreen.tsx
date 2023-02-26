@@ -1,7 +1,7 @@
+import { RootTabScreenProps } from '../types';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 
 
 

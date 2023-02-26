@@ -1,36 +1,50 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AuthProvider } from './navigation/AuthContext';
+import { StyleSheet } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Provider } from 'react-redux';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
-import { StatusBar } from 'expo-status-bar';
-import store from './redux/Store';
-import { Provider } from 'react-redux';
 import Navigation from './navigation';
-import { AuthProvider } from './navigation/AuthContext';
+import store from './redux/Store';
 
 
 
 
-const App = () => {
+const App: React.FC = () => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
 
-
   if (!isLoadingComplete) {
     return null;
-  } else {
 
+  }
+  else {
 
     return (
       <SafeAreaProvider>
-        <AuthProvider>
-          <Provider store={store}>
+        <Provider store={store}>
+          <AuthProvider>
             <Navigation colorScheme={colorScheme} />
-            <StatusBar />
-          </Provider>
-        </AuthProvider>
+            <StatusBar style='auto' />
+          </AuthProvider>
+        </Provider>
       </SafeAreaProvider>
     );
   }
 }
 export default App
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: 'space-around',
+    padding: 10
+  }
+})
