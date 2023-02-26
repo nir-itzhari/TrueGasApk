@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Provider } from 'react-redux';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import Navigation from './navigation/Navigation';
 import store from './redux/Store';
 
 
@@ -15,6 +15,7 @@ const App: React.FC = () => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
+  
 
   if (!isLoadingComplete) {
     return null;

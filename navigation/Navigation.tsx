@@ -2,35 +2,33 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { ActivityIndicator, ColorSchemeName, StyleSheet } from 'react-native';
 import { View } from '../components/Themed';
 import LinkingConfiguration from './LinkingConfiguration';
-import AuthStackScreens from './AuthStack';
 import AppStack from './AppStack';
 import useAuth from './../hooks/useAuth';
+import AuthStack from './AuthStack';
 
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const { isLoading, token } = useAuth()
-
-  console.log(isLoading, token)
   if (isLoading) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" style={styles.horizontal} />
       </View>
     )
+  } else {
+
+    return (
+      <NavigationContainer
+        linking={LinkingConfiguration}
+        theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+
+        {token !== null ? <AppStack /> : <AuthStack />}
+
+      </NavigationContainer>
+    );
   }
-
-  return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-
-      {token !== null ? <AppStack /> : <AuthStackScreens />}
-
-    </NavigationContainer>
-  );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

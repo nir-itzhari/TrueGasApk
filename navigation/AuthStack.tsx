@@ -4,17 +4,17 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import LoginScreen from "../screens/LoginScreen";
 
 
-const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 
-const AuthStackScreens = () => {
+const AuthStack = () => {
     return (
         <SafeAreaProvider>
-            <AuthStack.Navigator>
-                <AuthStack.Screen name="Login" component={LoginScreen} />
-            </AuthStack.Navigator>
+            <Stack.Navigator>
+                <Stack.Screen name="Login" component={LoginScreen} />
+            </Stack.Navigator>
         </SafeAreaProvider>
     );
 }
 
-export default AuthStackScreens
+export default AuthStack
