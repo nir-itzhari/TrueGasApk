@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
-import { assignmentsReducer } from "./AssignmentsState";
+import { assignmentsReducer } from "./AssignmentState";
 import { authReducer } from "./AuthState";
 
 
@@ -8,7 +8,7 @@ import { authReducer } from "./AuthState";
 
 
 const RootReducer = combineReducers({
-    AssignmentsState: assignmentsReducer,
+    assignmentsState: assignmentsReducer,
     authState: authReducer
 });
 

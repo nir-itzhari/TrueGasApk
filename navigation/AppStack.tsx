@@ -2,7 +2,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorScheme, StyleSheet } from "react-native";
 import { RootStackParamList } from "../types";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useState } from "react";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import BottomTabNav from "../components/BottomTabNav";
@@ -13,9 +12,6 @@ import BottomTabNav from "../components/BottomTabNav";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppStack = () => {
-    const [isReady, setIsReady] = useState<boolean>(null);
-    const [token, setToken] = useState<string>(null)
-
 
     return (
         <Stack.Navigator>

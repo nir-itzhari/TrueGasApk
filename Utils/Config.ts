@@ -3,7 +3,7 @@ class Config {
 }
 class DevelopmentConfig extends Config {
     public isDevelopment = true;
-    // public assignmentsUrl = "http://192.168.14.4:3000/api/assignments/";
+    public assignmentsUrl = "http://192.168.14.4:3000/api/assignments/";
     // public assignmentsImageUrl = "http://192.168.14.4:3000/assets/images/";
     // public socketUrl = "http://localhost:3000";
     public baseUrl = "http://192.168.14.4:3000/api";

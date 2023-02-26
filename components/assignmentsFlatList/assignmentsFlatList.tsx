@@ -2,38 +2,39 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
-import TaskRow from './taskRow';
+import AssignmetnModel from '../../Models/AssignmentModel';
+import AssignmentRow from './assignmentRow';
 
-export interface Task {
+export interface Assignment {
     date: Date;
     title: string;
     isDone: boolean;
 }
 
-export default function TasksFlatList() {
-    const dataArray: Task[] = [
-        { date: new Date(2022, 1, 1), title: 'משימה 1', isDone: false },
-        { date: new Date(2022, 1, 27), title: 'משימה 2', isDone: true },
-        { date: new Date(2022, 1, 2), title: 'משימה 3', isDone: false },
-        { date: new Date(2022, 1, 5), title: 'משימה 4', isDone: false },
-        { date: new Date(2022, 1, 11), title: 'משימה 5', isDone: true },
-        { date: new Date(2022, 1, 22), title: 'משימה 6', isDone: false },
-        { date: new Date(2022, 1, 13), title: 'משימה 7', isDone: false },
-        { date: new Date(2022, 1, 16), title: 'משימה 8', isDone: true },
-        { date: new Date(2022, 1, 7), title: 'משימה 9', isDone: false }
+export default function AssignmentsFlatList() {
+    const dataArray: AssignmetnModel[] = [
+        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 1), title: 'משימה 1', isDone: false },
+        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 27), title: 'משימה 2', isDone: true },
+        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 2), title: 'משימה 3', isDone: false },
+        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 5), title: 'משימה 4', isDone: false },
+        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 11), title: 'משימה 5', isDone: true },
+        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 22), title: 'משימה 6', isDone: false },
+        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 13), title: 'משימה 7', isDone: false },
+        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 16), title: 'משימה 8', isDone: true },
+        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 7), title: 'משימה 9', isDone: false }
     ];
 
-    const [sortedArray, setSortedArray] = useState<Task[]>(dataArray.sort((a, b) => moment(a.date).diff(moment(b.date))));
-    const [sortColumn, setSortColumn] = useState<keyof Task>('date');
+    const [sortedArray, setSortedArray] = useState<AssignmetnModel[]>(dataArray.sort((a, b) => moment(a.date).diff(moment(b.date))));
+    const [sortColumn, setSortColumn] = useState<keyof AssignmetnModel>('date');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
-    const sortArray = (prop: keyof Task) => {
+    const sortArray = (prop: keyof AssignmetnModel) => {
         let sorted = [...sortedArray];
         if (prop === sortColumn) {
             sorted.reverse();
             setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
         } else {
-            sorted.sort((a: Task, b: Task) => {
+            sorted.sort((a: AssignmetnModel, b: AssignmetnModel) => {
                 if (a[prop] < b[prop]) return sortDirection === 'asc' ? -1 : 1;
                 if (a[prop] > b[prop]) return sortDirection === 'asc' ? 1 : -1;
                 return 0;
@@ -44,11 +45,11 @@ export default function TasksFlatList() {
         setSortedArray(sorted);
     };
 
-    const renderItem = ({ item, index }: { item: Task, index: number }) => (
-        <TaskRow task={item} index={index} />
+    const renderItem = ({ item, index }: { item: AssignmetnModel, index: number }) => (
+        <AssignmentRow assignment={item} index={index} />
     );
 
-    const renderColumnHeader = (column: keyof Task, title: string) => {
+    const renderColumnHeader = (column: keyof AssignmetnModel, title: string) => {
         const isActive = column === sortColumn;
         const direction = isActive ? sortDirection : 'asc';
         const icon = (

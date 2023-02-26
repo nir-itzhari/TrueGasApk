@@ -1,10 +1,12 @@
-class AssignmentModel {
+class AssignmetnModel {
     public assignmentId: string;
     public date: Date;
-    public description: string;
-    // public imageFile: FileList = null;
-    public imageName: string;
-    public isDone?: boolean;
+    public title: string;
+    public isDone: boolean
+    // public description: string;
+    public imageFile: FileList = null;
+    // public imageName: string;
+    // public isDone?: boolean;
 }
 
-export default AssignmentModel;
+export default AssignmetnModel;

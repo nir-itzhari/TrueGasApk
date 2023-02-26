@@ -1,13 +1,13 @@
-import { fetchAssignmentsAction, addAssignmentAction, deleteAssignmentAction, updateAssignmentAction } from '../Redux/AssignmentsState';
 import axios from "axios";
 import store from "../Redux/Store";
 import config from "../Utils/Config";
-import dayjs from 'dayjs';
-import AssignmentModel from '../Models/AssignmentModel';
+import { fetchAssignmentsAction } from "../redux/AssignmentState";
+import AssignmentModel from "../Models/AssignmentModel";
 
-class AssignmentsService {
+class AssignmentService {
 
     public async fetchAssignments(): Promise<AssignmentModel[]> {
+        AssignmentModel
 
         if (store.getState().assignmentsState.assignments.length === 0) {
             const response = await axios.get<AssignmentModel[]>(config.assignmentsUrl);
@@ -17,7 +17,7 @@ class AssignmentsService {
         return store.getState().assignmentsState.assignments;
     }
 
-    public async getOneAssignment(assignmentId: string): Promise<AssignmentModel> {
+    public async getOneAssignments(assignmentId: string): Promise<AssignmentModel> {
         let assignment = store.getState().assignmentsState.assignments.find(a => a.assignmentId === assignmentId);
         if (!assignment) {
             const response = await axios.get<AssignmentModel>(config.assignmentsUrl + assignmentId);
@@ -65,6 +65,6 @@ class AssignmentsService {
     //     store.dispatch(deleteVacationAction(vacationId));
     // }
 }
-const assignmentsService = new AssignmentsService();
+const assignmentService = new AssignmentService();
 
-export default assignmentsService
+export default assignmentService

@@ -18,9 +18,9 @@ const linking: LinkingOptions<RootStackParamList & AuthStackParamList> = {
               ReportsScreen: 'reports',
             },
           },
-          Tasks: {
+          Assignments: {
             screens: {
-              TaskScreen: 'tasks',
+              AssignmentsScreen: 'assignments',
             },
           },
         },
