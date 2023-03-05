@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TrueGasApk",
-    "slug": "TrueGasApk",
+    "name": "TrueGas",
+    "slug": "truegas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -26,15 +26,16 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "con.synex.truegas"
+      "package": "com.synex.truegas"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "2d5e5119-132a-4d42-9033-ef727840c423"
+        "projectId": "758fd3af-ed78-44ab-a0f0-11b58e937a38"
       }
-    }
+    },
+    "owner": "synexprox"
   }
 }

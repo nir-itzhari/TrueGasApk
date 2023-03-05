@@ -7,7 +7,6 @@ import AssignmentModel from "../Models/AssignmentModel";
 class AssignmentService {
 
     public async fetchAssignments(): Promise<AssignmentModel[]> {
-        AssignmentModel
 
         if (store.getState().assignmentsState.assignments.length === 0) {
             const response = await axios.get<AssignmentModel[]>(config.assignmentsUrl);
@@ -17,14 +16,14 @@ class AssignmentService {
         return store.getState().assignmentsState.assignments;
     }
 
-    public async getOneAssignments(assignmentId: string): Promise<AssignmentModel> {
-        let assignment = store.getState().assignmentsState.assignments.find(a => a.assignmentId === assignmentId);
-        if (!assignment) {
-            const response = await axios.get<AssignmentModel>(config.assignmentsUrl + assignmentId);
-            assignment = response.data;
-        }
-        return assignment;
-    }
+    // public async getOneAssignments(assignmentId: string): Promise<AssignmentModel> {
+    //     let assignment = store.getState().assignmentsState.assignments.find(a => a.assignmentId === assignmentId);
+    //     if (!assignment) {
+    //         const response = await axios.get<AssignmentModel>(config.assignmentsUrl + assignmentId);
+    //         assignment = response.data;
+    //     }
+    //     return assignment;
+    // }
 
     // public async addNewVacation(vacation: AssignmentModel): Promise<AssignmentModel> {
 

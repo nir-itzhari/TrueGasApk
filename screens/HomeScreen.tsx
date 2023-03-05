@@ -1,44 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import { useContext, useState } from 'react';
-import { StyleSheet, Button, ToastAndroid } from 'react-native';
-import { Text, View } from '../components/Themed';
-import { CommonActions } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import authService from './../Services/AuthServices';
-import store from './../redux/Store';
-import { createNavigationContainerRef } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
+import { View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-import { AuthContext } from '../navigation/AuthContext';
 import useAuth from './../hooks/useAuth';
+import { Text } from 'react-native';
 
 
 
 
 
 export default function HomeScreen({ navigation, route }: RootTabScreenProps<'Home'>) {
-  const navigationRef = createNavigationContainerRef()
-  const user_id = route.params?.user_id
-  const [token, setToken] = useState<string>(null);
-
-  const handlePress = async (): Promise<void> => {
-    const tokenFromStorage = await AsyncStorage.getItem("token");
-    setToken(tokenFromStorage);
-  };
-
-  const { logout } = useAuth();
+  const { user_id } = useAuth();
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {user_id && <Text style={styles.title}>Welcome {user_id}</Text>}
-      <Button title='התנתק' onPress={() => {
-        logout()
-        ToastAndroid.show("להתראות!", 3000);
-
-      }} />
-
-      {token !== null && <Text style={styles.title}>{token}</Text>}
+      <Text style={styles.title}>בית</Text>
+      <View>
+      </View>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <View>
+        {user_id && <Text style={styles.title}>Welcome {user_id}</Text>}
+      </View>
     </View>
   );
 }

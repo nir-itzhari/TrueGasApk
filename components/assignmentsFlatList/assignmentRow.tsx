@@ -1,10 +1,10 @@
 import moment from 'moment';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import AssignmetnModel from '../../Models/AssignmentModel';
+import AssignmentModel from '../../Models/AssignmentModel';
 
 interface AssignmentRowProps {
-    assignment: AssignmetnModel;
+    assignment: AssignmentModel;
     index: number
 }
 

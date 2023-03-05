@@ -2,9 +2,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorScheme, StyleSheet } from "react-native";
 import { RootStackParamList } from "../types";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import BottomTabNav from "../components/BottomTabNav";
+import AddClientScreenModal from "../screens/AddClientScreenModal";
+import { ClientPickerProvider } from "./ClientPickerContext";
 
 
 
@@ -16,10 +17,8 @@ const AppStack = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-            <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-            <Stack.Group screenOptions={{ presentation: 'modal' }}>
-                <Stack.Screen name="Modal" component={ModalScreen} />
-            </Stack.Group>
+            <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!', headerTitleAlign: "center", }} />
+
         </Stack.Navigator>
     );
 }
@@ -31,7 +30,9 @@ function BottomTabNavigator() {
 
     return (
         <SafeAreaProvider>
+
             <BottomTabNav />
+
         </SafeAreaProvider>
 
     );

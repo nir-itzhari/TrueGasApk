@@ -1,7 +1,7 @@
 
-import AssignmetnModel from './../Models/AssignmentModel';
+import AssignmentModel from './../Models/AssignmentModel';
 export class AssignmentsState {
-    public assignments: AssignmetnModel[] = [];
+    public assignments: AssignmentModel[] = [];
 
 }
 
@@ -17,14 +17,14 @@ export interface AssignmentAction {
     payload: any;
 }
 
-export const fetchAssignmentsAction = (assignments: AssignmetnModel[]): AssignmentAction => {
+export const fetchAssignmentsAction = (assignments: AssignmentModel[]): AssignmentAction => {
     return { type: AssignmentActionType.FetchAssignments, payload: assignments };
 }
 
-export const addAssignmentAction = (assignment: AssignmetnModel): AssignmentAction => {
+export const addAssignmentAction = (assignment: AssignmentModel): AssignmentAction => {
     return { type: AssignmentActionType.AddAssignment, payload: assignment };
 }
-export const updateAssignmentAction = (assignment: AssignmetnModel): AssignmentAction => {
+export const updateAssignmentAction = (assignment: AssignmentModel): AssignmentAction => {
     return { type: AssignmentActionType.UpdateAssignment, payload: assignment };
 }
 export const deleteAssignmentAction = (assignmentId: string): AssignmentAction => {

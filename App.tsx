@@ -7,7 +7,8 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation/Navigation';
 import store from './redux/Store';
-
+import KeyboardAvoidingWrapper from './navigation/AKeyboard';
+import 'react-native-gesture-handler';
 
 
 
@@ -15,7 +16,7 @@ const App: React.FC = () => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
-  
+
 
   if (!isLoadingComplete) {
     return null;
@@ -27,8 +28,14 @@ const App: React.FC = () => {
       <SafeAreaProvider>
         <Provider store={store}>
           <AuthProvider>
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar style='auto' />
+            <KeyboardAvoidingWrapper>
+              {/* <ClientPickerProvider> */}
+              {/* <UserPickerProvider> */}
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar style='auto' />
+              {/* </UserPickerProvider> */}
+              {/* </ClientPickerProvider> */}
+            </KeyboardAvoidingWrapper>
           </AuthProvider>
         </Provider>
       </SafeAreaProvider>

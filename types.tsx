@@ -18,14 +18,24 @@ export type AuthStackParamList = {
 };
 
 
+export type AssignmentsStackParamList = {
+  AssignmentsListScreen: undefined;
+  AddAssignmentScreen: undefined;
+  AddClientScreenModal: undefined;
+}
+
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  Modal: undefined;
   NotFound: undefined;
 };
 
+export type AssignmentsStackScreenProps<Screen extends keyof AssignmentsStackParamList> = NativeStackScreenProps<
+  AssignmentsStackParamList,
+  Screen
+>;
+
 export type AuthStackScreenProps<Screen extends keyof AuthStackParamList> = NativeStackScreenProps<
-AuthStackParamList,
+  AuthStackParamList,
   Screen
 >;
 
@@ -38,11 +48,14 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 export type RootTabParamList = {
   Home: { user_id: string };
   Reports: undefined;
-  Assignments: undefined
-  
+  Assignments: NavigatorScreenParams<AssignmentsStackParamList> | undefined;
+  AddAssignment: undefined;
+  AddClientScreenModal: undefined;
+
 };
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
-  NativeStackScreenProps<RootStackParamList>
->;
+export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
+  CompositeScreenProps<
+    BottomTabScreenProps<RootTabParamList, Screen>,
+    NativeStackScreenProps<RootStackParamList>
+  >;

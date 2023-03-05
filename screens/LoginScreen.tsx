@@ -9,7 +9,7 @@ import useAuth from '../hooks/useAuth';
 
 
 
-export default function LoginScreen({ navigation, route }: AuthStackScreenProps<'Login'>) {
+export default function LoginScreen({ navigation }: AuthStackScreenProps<'Login'>) {
 
     const [isUserIdFocused, setIsUserIdFocused] = useState(null);
     const [isPasswordFocused, setIsPasswordFocused] = useState(null);
@@ -21,6 +21,7 @@ export default function LoginScreen({ navigation, route }: AuthStackScreenProps<
     const submit: (credentials: FieldValues) => Promise<void> = async (credentials) => {
         const { user_id, password } = credentials;
         login({ user_id, password })
+        
     }
 
     const handleUserIdChange = (value: string) => {

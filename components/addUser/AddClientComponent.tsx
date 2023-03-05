@@ -1,0 +1,91 @@
+import { StatusBar } from 'expo-status-bar';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { View, Text, StyleSheet, Platform, ScrollView } from 'react-native';
+import { Button, Switch, TextInput } from 'react-native-paper';
+import { ClientModel } from '../../Models/ClientModel';
+import { KeyboardAvoidingContext } from '../../navigation/AKeyboard';
+import RadioGroup from '../RadioButton';
+import { IsBuildingForm } from './IsBuildingForm';
+import { NameAndAddressForm } from './NameAndAddressForm';
+
+
+export default function AddUserForm() {
+
+  const { register, control, handleSubmit, reset, formState: { errors }, } = useForm<ClientModel>();
+  const [phoneTwo, setphoneTwo] = useState<boolean>(false);
+  const onToggleSwitch = () => setphoneTwo(!phoneTwo);
+  const [buildingType, setBuildingType] = useState('house');
+  const handleBuildingTypeChange = (value: string) => {
+    setBuildingType(value);
+  };
+  const keyboardAvoidingRef = useContext(KeyboardAvoidingContext);
+
+  const onSubmit: SubmitHandler<ClientModel> = (client) => {
+    console.log(client); // print the client object on the console
+  }
+
+  return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false} ref={keyboardAvoidingRef}>
+      <View style={styles.form}>
+        <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+          <RadioGroup
+            options={[
+              { label: 'בניין משותף', value: 'building' },
+              { label: 'בית פרטי', value: 'house' },
+            ]}
+            selectedValue={buildingType}
+            onValueChange={handleBuildingTypeChange}
+          />
+          <Switch value={phoneTwo} onValueChange={onToggleSwitch} />
+          <Text>נייד נוסף?</Text>
+        </View>
+        <NameAndAddressForm control={control} errors={errors} buildingType={buildingType} phoneTwo={phoneTwo} />
+
+        {buildingType !== "house" ? <IsBuildingForm control={control} errors={errors} /> : null}
+        <Button icon="send" mode="contained" onPress={handleSubmit(onSubmit)}>
+          הוסף
+        </Button>
+      </View>
+    </ScrollView >
+  );
+};
+
+
+const styles = StyleSheet.create({
+  form: {
+    padding: 16,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    shadowColor: '#000000',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 3,
+    elevation: 4,
+  },
+  input: {
+    marginVertical: 8,
+    borderColor: '#cccccc',
+    fontSize: 16,
+  },
+  button: {
+    marginVertical: 16,
+    backgroundColor: '#0077cc',
+    borderRadius: 4,
+    paddingVertical: 12,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  errorText: {
+    color: '#cc0000',
+    fontSize: 14,
+    marginTop: 4,
+  },
+});

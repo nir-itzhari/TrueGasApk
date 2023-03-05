@@ -5,6 +5,8 @@ import LinkingConfiguration from './LinkingConfiguration';
 import AppStack from './AppStack';
 import useAuth from './../hooks/useAuth';
 import AuthStack from './AuthStack';
+import { ClientPickerProvider } from './ClientPickerContext';
+// import { UserPickerProvider } from './UserPickerContext';
 
 
 
@@ -19,16 +21,21 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   } else {
 
     return (
-      <NavigationContainer
-        linking={LinkingConfiguration}
-        theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ClientPickerProvider>
+        {/* <UserPickerProvider> */}
+        <NavigationContainer
+          linking={LinkingConfiguration}
+          theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 
-        {token !== null ? <AppStack /> : <AuthStack />}
-
-      </NavigationContainer>
+          {token !== null ? <AppStack /> : <AuthStack />}
+        </NavigationContainer>
+        {/* </UserPickerProvider> */}
+      </ClientPickerProvider>
     );
   }
 }
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

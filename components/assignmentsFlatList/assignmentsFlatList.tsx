@@ -2,39 +2,44 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
-import AssignmetnModel from '../../Models/AssignmentModel';
+import AssignmentModel from '../../Models/AssignmentModel';
 import AssignmentRow from './assignmentRow';
 
 export interface Assignment {
+    assignmentId: string;
     date: Date;
     title: string;
-    isDone: boolean;
+    description: string;
+    client_id: string | null
+    user_id: string | null;
+    imageFile: FileList;
+    imageName: string | null;
+    isDone?: boolean;
+
 }
 
 export default function AssignmentsFlatList() {
-    const dataArray: AssignmetnModel[] = [
-        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 1), title: 'משימה 1', isDone: false },
-        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 27), title: 'משימה 2', isDone: true },
-        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 2), title: 'משימה 3', isDone: false },
-        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 5), title: 'משימה 4', isDone: false },
-        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 11), title: 'משימה 5', isDone: true },
-        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 22), title: 'משימה 6', isDone: false },
-        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 13), title: 'משימה 7', isDone: false },
-        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 16), title: 'משימה 8', isDone: true },
-        { assignmentId: "djklahkdsh", date: new Date(2022, 1, 7), title: 'משימה 9', isDone: false }
+    const dataArray: Assignment[] = [
+        { assignmentId: "1", date: new Date(2022, 1, 1), title: 'משימה 1', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+        { assignmentId: "2", date: new Date(2022, 1, 2), title: 'משימה 2', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+        { assignmentId: "3", date: new Date(2022, 1, 11), title: 'משימה 3', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+        { assignmentId: "4", date: new Date(2022, 1, 15), title: 'משימה 4', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+        { assignmentId: "5", date: new Date(2022, 1, 24), title: 'משימה 5', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+        { assignmentId: "6", date: new Date(2022, 1, 13), title: 'משימה 6', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+        { assignmentId: "7", date: new Date(2022, 1, 16), title: 'משימה 7', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
     ];
 
-    const [sortedArray, setSortedArray] = useState<AssignmetnModel[]>(dataArray.sort((a, b) => moment(a.date).diff(moment(b.date))));
-    const [sortColumn, setSortColumn] = useState<keyof AssignmetnModel>('date');
+    const [sortedArray, setSortedArray] = useState<AssignmentModel[]>(dataArray.sort((a, b) => moment(a.date).diff(moment(b.date))));
+    const [sortColumn, setSortColumn] = useState<keyof AssignmentModel>('date');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
-    const sortArray = (prop: keyof AssignmetnModel) => {
+    const sortArray = (prop: keyof AssignmentModel) => {
         let sorted = [...sortedArray];
         if (prop === sortColumn) {
             sorted.reverse();
             setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
         } else {
-            sorted.sort((a: AssignmetnModel, b: AssignmetnModel) => {
+            sorted.sort((a: AssignmentModel, b: AssignmentModel) => {
                 if (a[prop] < b[prop]) return sortDirection === 'asc' ? -1 : 1;
                 if (a[prop] > b[prop]) return sortDirection === 'asc' ? 1 : -1;
                 return 0;
@@ -45,11 +50,11 @@ export default function AssignmentsFlatList() {
         setSortedArray(sorted);
     };
 
-    const renderItem = ({ item, index }: { item: AssignmetnModel, index: number }) => (
+    const renderItem = ({ item, index }: { item: AssignmentModel, index: number }) => (
         <AssignmentRow assignment={item} index={index} />
     );
 
-    const renderColumnHeader = (column: keyof AssignmetnModel, title: string) => {
+    const renderColumnHeader = (column: keyof AssignmentModel, title: string) => {
         const isActive = column === sortColumn;
         const direction = isActive ? sortDirection : 'asc';
         const icon = (

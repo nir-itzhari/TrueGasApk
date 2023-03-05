@@ -1,116 +1,152 @@
-import React, { useCallback } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
-import AssignmetnModel from '../../Models/AssignmentModel';
-
-// type AddAssignmentFormData = Omit<AssignmetnModel,| 'assignmentId' | 'isDone'> & {
-//     imageFile: FileList | null;
-// };
-
-// interface AddAssignmentFormProps {
-//     onSubmit: (data: AddAssignmentFormData) => void;
-// }
-
-export const AddAssignmentForm: React.FC<AssignmetnModel> = () => {
-    const { control, handleSubmit, formState: { errors }, } = useForm<AssignmetnModel>();
-
-    // const onSubmitForm = useCallback((data: AddAssignmentFormData) => { onSubmit(data); }, [onSubmit],);
+import React, { useContext, useEffect, useState } from 'react';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { View, Text, StyleSheet } from 'react-native';
+import { ClientContext } from '../../navigation/ClientPickerContext';
+import { AssignmentsStackScreenProps } from '../../types';
+import ClientPicker from './ClientPicker';
+import { Button, RadioButton, TextInput } from 'react-native-paper';
+import { AuthContext } from '../../navigation/AuthContext';
+import { Switch } from 'react-native-paper';
+import AssignmentModel from '../../Models/AssignmentModel';
+import AssignmentDatePicker from './DatePicker';
 
 
-    const submit = (assignment: AssignmetnModel) => {
-        console.log(assignment)
+export default function AddAssignmentScreen({ navigation }: AssignmentsStackScreenProps<'AddAssignmentScreen'>) {
+    const { register, control, setValue, handleSubmit, formState: { errors }, reset } = useForm<AssignmentModel>();
+    const { client } = useContext(ClientContext);
+    const { user_id } = useContext(AuthContext);
+    const [isSwitchOn, setIsSwitchOn] = useState<boolean>(true);
+    const [isDone, setIsDone] = useState("true");
+    const [buildingType, setBuildingType] = useState('house');
 
+    const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+
+    const handleBuildingTypeChange = (value: string) => {
+        setBuildingType(value);
+    };
+
+    const handleIsDoneChange = (value: string) => {
+        setIsDone(value);
+    };
+
+    const onSubmit: SubmitHandler<AssignmentModel> = async (assignment) => {
+        assignment.client_id = client.id;
+        assignment.user_id = user_id;
+        assignment.isDone = isDone === "true" ? true : false;
+        console.log(assignment);
+
+    };
+
+    const AddClientButton = () => {
+
+        return (
+            <View>
+                <Button icon="plus" mode="contained" onPress={() => navigation.navigate("AddClientScreenModal")}>הוסף לקוח</Button>
+            </View>
+        )
     }
-
-
-
+    useEffect(() => {
+        navigation.setOptions({
+            title: "הוסף משימה"
+        })
+    }, [])
 
     return (
-        <View>
+        <View style={styles.form}>
+            <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+                <Text>לקוח קיים?</Text>
+            </View>
+            {isSwitchOn ? <ClientPicker /> : <AddClientButton />}
+
             <Controller
                 control={control}
                 name="date"
-                defaultValue={new Date()}
                 render={({ field: { onChange, value } }) => (
-                    <TextInput onChangeText={onChange} value={value.toString()} />
+                    <AssignmentDatePicker value={value} onChange={onChange} />
                 )}
             />
-            {errors.date && <Text>{errors.date.message}</Text>}
-            {/* <Controller
-                control={control}
-                name="description"
-                defaultValue=""
-                rules={{ required: 'Description is required' }}
-                render={({ field: { onChange, value } }) => (
-                    <TextInput onChangeText={onChange} value={value} />
-                )}
-            />
-            {errors.description && <Text>{errors.description.message}</Text>} */}
 
 
-             <Controller
-                control={control}
-                name="title"
-                defaultValue=""
-                rules={{ required: 'Description is required' }}
-                render={({ field: { onChange, value } }) => (
-                    <TextInput onChangeText={onChange} value={value} />
-                )}
-            />
-            {errors.title && <Text>{errors.title.message}</Text>}
             <Controller
                 control={control}
-                name="imageFile"
-                defaultValue={null}
-                render={({ field: { onChange } }) => (
-                    <Button title="Choose image" onPress={onChange} />
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                        label="כותרת"
+                        mode="outlined"
+                        onChangeText={onChange}
+                        onBlur={onBlur}
+                        value={value}
+                        style={styles.input}
+                        error={errors.title ? true : false}
+                    />
                 )}
+                name="title"
+                rules={{ required: true }}
+                defaultValue=""
             />
-            {errors.imageFile && <Text>{errors.imageFile.message}</Text>}
-            
-            <Button title="Add assignment" onPress={handleSubmit(submit)} />
-        </View>
-    );
-};
+            {errors.title && <Text style={styles.error}>*שדה חובה</Text>}
+            <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                        label="תיאור"
+                        mode="outlined"
+                        onChangeText={onChange}
+                        onBlur={onBlur}
+                        value={value}
+                        style={styles.input}
+                        multiline
+                        numberOfLines={3}
+                        error={errors.description ? true : false}
+                    />
+                )}
+                name="description"
+                rules={{ required: true }}
+                defaultValue=""
+            />
+            {errors.description && <Text style={styles.error}>*שדה חובה</Text>}
 
+            <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                <Text>בוצעה?</Text>
+                <RadioButton.Group onValueChange={handleIsDoneChange} value={isDone}>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <RadioButton value="true" />
+                        <Text style={{ marginRight: 10 }}>כן</Text>
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <RadioButton value="false" />
+                        <Text>לא</Text>
+                    </View>
+                </RadioButton.Group>
+            </View>
+
+            <Button
+                mode="contained"
+                style={styles.button}
+                onPress={handleSubmit(onSubmit)}
+            >
+                הוסף משימה
+            </Button>
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
     form: {
-        padding: 16,
-        backgroundColor: '#ffffff',
-        borderRadius: 8,
-        shadowColor: '#000000',
-        shadowOpacity: 0.2,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowRadius: 3,
-        elevation: 4,
+        padding: 20
     },
     input: {
-        marginVertical: 8,
-        padding: 8,
-        borderWidth: 1,
-        borderColor: '#cccccc',
-        borderRadius: 4,
-        fontSize: 16,
+        marginBottom: 10,
+        backgroundColor: "#fff"
     },
     button: {
-        marginVertical: 16,
-        backgroundColor: '#0077cc',
-        borderRadius: 4,
-        paddingVertical: 12,
+        marginTop: 10
     },
-    buttonText: {
-        color: '#ffffff',
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    errorText: {
-        color: '#cc0000',
+    error: {
+        color: "red",
         fontSize: 14,
-        marginTop: 4,
-    },
-});
+        marginBottom: 5
+    }
+})
+

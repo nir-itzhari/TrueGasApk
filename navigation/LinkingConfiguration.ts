@@ -20,12 +20,13 @@ const linking: LinkingOptions<RootStackParamList & AuthStackParamList> = {
           },
           Assignments: {
             screens: {
-              AssignmentsScreen: 'assignments',
+              AssignmentsListScreen: 'assignments-list',
+              AddAssignmentsScreen: 'add-assignment', // New screen added
+              AddClientScreenModal: 'add-client',
             },
           },
         },
       },
-      Modal: 'modal',
       NotFound: '*',
       Login: 'login'
     },
