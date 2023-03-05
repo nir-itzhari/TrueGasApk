@@ -10,7 +10,7 @@ import { IsBuildingForm } from './IsBuildingForm';
 import { NameAndAddressForm } from './NameAndAddressForm';
 
 
-export default function AddUserForm() {
+export default function AddClientForm() {
 
   const { register, control, handleSubmit, reset, formState: { errors }, } = useForm<ClientModel>();
   const [phoneTwo, setphoneTwo] = useState<boolean>(false);
@@ -29,6 +29,10 @@ export default function AddUserForm() {
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false} ref={keyboardAvoidingRef}>
       <View style={styles.form}>
         <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+          <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginHorizontal: 0 }}>
+            <Switch value={phoneTwo} onValueChange={onToggleSwitch} />
+            <Text >נייד נוסף?</Text>
+          </View>
           <RadioGroup
             options={[
               { label: 'בניין משותף', value: 'building' },
@@ -37,9 +41,7 @@ export default function AddUserForm() {
             selectedValue={buildingType}
             onValueChange={handleBuildingTypeChange}
           />
-          <Switch value={phoneTwo} onValueChange={onToggleSwitch} />
-          <Text>נייד נוסף?</Text>
-        </View>
+        </View >
         <NameAndAddressForm control={control} errors={errors} buildingType={buildingType} phoneTwo={phoneTwo} />
 
         {buildingType !== "house" ? <IsBuildingForm control={control} errors={errors} /> : null}

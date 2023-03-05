@@ -18,12 +18,12 @@ const RadioGroup = ({ options, selectedValue, onValueChange }: RadioButtonProps)
     <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
       {options.map(({ label, value }) => (
         <React.Fragment key={value}>
-          <Text>{label}</Text>
           <RadioButton
             value={value}
             status={selectedValue === value ? 'checked' : 'unchecked'}
             onPress={() => onValueChange(value)}
-          />
+            />
+            <Text>{label}</Text>
         </React.Fragment>
       ))}
     </View>

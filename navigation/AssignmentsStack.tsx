@@ -34,7 +34,7 @@ export function AssignmentsStack() {
                 })}
             />
             <Stack.Group screenOptions={{ presentation: 'containedModal' }}>
-                <Stack.Screen name="AddClientScreenModal" component={AddClientScreenModal} options={{ title: "הוסף לקוח" }} />
+                <Stack.Screen name="AddClientScreenModal" component={AddClientScreenModal} options={{ title: "הוסף לקוח", headerTitleAlign: 'center' }} />
             </Stack.Group>
             <Stack.Screen name="AddAssignmentScreen" component={AddAssignmentScreen} />
         </Stack.Navigator>

@@ -61,6 +61,8 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="edit" color={color} />,
         }}
       />
+
+      
       <BottomTab.Screen
         name="Assignments"
         component={AssignmentsStack}

@@ -47,7 +47,8 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
     }
     useEffect(() => {
         navigation.setOptions({
-            title: "הוסף משימה"
+            title: "הוסף משימה",
+            headerTitleAlign: 'center'
         })
     }, [])
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import AddUserForm from '../components/addUser/AddClientComponent';
+import AddClientForm from '../components/addUser/AddClientComponent';
 import { AssignmentsStackScreenProps } from '../types';
 
 export default function AddClientScreenModal() {
@@ -8,7 +8,7 @@ export default function AddClientScreenModal() {
 
   return (
       <View style={styles.form}>
-        <AddUserForm />
+        <AddClientForm />
       </View>
   );
 };
