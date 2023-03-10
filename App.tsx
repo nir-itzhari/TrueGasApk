@@ -7,15 +7,13 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation/Navigation';
 import store from './redux/Store';
-import KeyboardAvoidingWrapper from './navigation/AKeyboard';
 import 'react-native-gesture-handler';
-
-
+import { KeyboardAvoidingView, Platform } from 'react-native';
 
 const App: React.FC = () => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? 70 : 0; // adjust the value based on your design
 
 
   if (!isLoadingComplete) {
@@ -25,20 +23,24 @@ const App: React.FC = () => {
   else {
 
     return (
-      <SafeAreaProvider>
-        <Provider store={store}>
-          <AuthProvider>
-            <KeyboardAvoidingWrapper>
-              {/* <ClientPickerProvider> */}
-              {/* <UserPickerProvider> */}
-              <Navigation colorScheme={colorScheme} />
-              <StatusBar style='auto' />
-              {/* </UserPickerProvider> */}
-              {/* </ClientPickerProvider> */}
-            </KeyboardAvoidingWrapper>
-          </AuthProvider>
-        </Provider>
-      </SafeAreaProvider>
+      // <SafeAreaProvider>
+      <Provider store={store}>
+        <AuthProvider>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={keyboardVerticalOffset}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            style={{ flex: 1, flexDirection: "column" }}
+          >
+            {/* <ClientPickerProvider> */}
+            {/* <UserPickerProvider> */}
+            <Navigation colorScheme={colorScheme} />
+            {/* <StatusBar style='auto' /> */}
+            {/* </UserPickerProvider> */}
+            {/* </ClientPickerProvider> */}
+          </KeyboardAvoidingView>
+        </AuthProvider>
+      </Provider>
+      // </SafeAreaProvider>
     );
   }
 }

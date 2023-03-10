@@ -21,8 +21,9 @@ const linking: LinkingOptions<RootStackParamList & AuthStackParamList> = {
           Assignments: {
             screens: {
               AssignmentsListScreen: 'assignments-list',
-              AddAssignmentsScreen: 'add-assignment', // New screen added
+              AddAssignmentsScreen: 'add-assignment',
               AddClientScreenModal: 'add-client',
+              AssignmentCardScreen: 'assignment-card'
             },
           },
         },

@@ -4,8 +4,6 @@ import { RootStackParamList } from "../types";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import BottomTabNav from "../components/BottomTabNav";
-import AddClientScreenModal from "../screens/AddClientScreenModal";
-import { ClientPickerProvider } from "./ClientPickerContext";
 
 
 

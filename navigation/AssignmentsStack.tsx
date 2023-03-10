@@ -5,6 +5,7 @@ import AddAssignmentScreen from "../components/addAssignmentForm/AddAssignmentFo
 import AddClientScreenModal from "../screens/AddClientScreenModal";
 import AssignmentsListScreen from "../screens/AssignmentsListScreen";
 import { AssignmentsStackParamList, AssignmentsStackScreenProps } from "../types";
+import AssignmentCardScreen from './../screens/AssignmentCardScreen';
 
 
 
@@ -35,6 +36,9 @@ export function AssignmentsStack() {
             />
             <Stack.Group screenOptions={{ presentation: 'containedModal' }}>
                 <Stack.Screen name="AddClientScreenModal" component={AddClientScreenModal} options={{ title: "הוסף לקוח", headerTitleAlign: 'center' }} />
+            </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: 'containedModal' }}>
+                <Stack.Screen name="AssignmentCardScreen" component={AssignmentCardScreen} options={{ title: "פרטי משימה", headerTitleAlign: 'center' }} />
             </Stack.Group>
             <Stack.Screen name="AddAssignmentScreen" component={AddAssignmentScreen} />
         </Stack.Navigator>

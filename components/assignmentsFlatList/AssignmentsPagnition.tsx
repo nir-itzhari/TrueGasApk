@@ -11,37 +11,37 @@ interface LeftContentProps {
 }
 
 
-// interface Props {
-//     data: AssignmentModel[] | null;
-// }
+interface Props {
+    data: AssignmentModel[] | null;
+}
 
 const PAGE_SIZE = 10;
 
-const AssignmentsPagnition: React.FC = () => {
-    const dataArray: AssignmentModel[] = [
-        { assignmentId: "1", date: new Date(2022, 1, 1), title: 'התקנת מחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
-        { assignmentId: "2", date: new Date(2022, 1, 2), title: 'התקנת כיריים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
-        { assignmentId: "3", date: new Date(2022, 1, 11), title: 'התקנת מחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
-        { assignmentId: "4", date: new Date(2022, 1, 15), title: 'התקנת מונה', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
-        { assignmentId: "5", date: new Date(2022, 1, 24), title: 'הנחת צנרת', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
-        { assignmentId: "6", date: new Date(2022, 1, 13), title: 'קריאת חירום', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
-        { assignmentId: "7", date: new Date(2022, 1, 16), title: 'העתקת נקודה', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
-        { assignmentId: "8", date: new Date(2022, 1, 24), title: 'התקנת מיכלים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
-        { assignmentId: "9", date: new Date(2022, 1, 13), title: 'תיקון מחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
-        { assignmentId: "10", date: new Date(2022, 1, 16), title: 'התכנות למחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
-        { assignmentId: "11", date: new Date(2022, 1, 24), title: 'תיקון מחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
-        { assignmentId: "12", date: new Date(2022, 1, 13), title: 'התכנות למחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
-        { assignmentId: "13", date: new Date(2022, 1, 16), title: 'שידרוג למחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
-        { assignmentId: "14", date: new Date(2022, 1, 24), title: 'התקנת מיכלים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
-        { assignmentId: "15", date: new Date(2022, 1, 13), title: 'התכנות למחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
-        { assignmentId: "16", date: new Date(2022, 1, 16), title: 'קריאת חירום', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
-    ];
+const AssignmentsPagnition = ({ data }: Props) => {
+    // const dataArray: AssignmentModel[] = [
+    //     { assignmentId: "1", date: new Date(2022, 1, 1), title: 'התקנת מחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+    //     { assignmentId: "2", date: new Date(2022, 1, 2), title: 'התקנת כיריים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+    //     { assignmentId: "3", date: new Date(2022, 1, 11), title: 'התקנת מחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+    //     { assignmentId: "4", date: new Date(2022, 1, 15), title: 'התקנת מונה', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+    //     { assignmentId: "5", date: new Date(2022, 1, 24), title: 'הנחת צנרת', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+    //     { assignmentId: "6", date: new Date(2022, 1, 13), title: 'קריאת חירום', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+    //     { assignmentId: "7", date: new Date(2022, 1, 16), title: 'העתקת נקודה', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+    //     { assignmentId: "8", date: new Date(2022, 1, 24), title: 'התקנת מיכלים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+    //     { assignmentId: "9", date: new Date(2022, 1, 13), title: 'תיקון מחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+    //     { assignmentId: "10", date: new Date(2022, 1, 16), title: 'התכנות למחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+    //     { assignmentId: "11", date: new Date(2022, 1, 24), title: 'תיקון מחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+    //     { assignmentId: "12", date: new Date(2022, 1, 13), title: 'התכנות למחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+    //     { assignmentId: "13", date: new Date(2022, 1, 16), title: 'שידרוג למחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+    //     { assignmentId: "14", date: new Date(2022, 1, 24), title: 'התקנת מיכלים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false },
+    //     { assignmentId: "15", date: new Date(2022, 1, 13), title: 'התכנות למחמם מים', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+    //     { assignmentId: "16", date: new Date(2022, 1, 16), title: 'קריאת חירום', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true },
+    // ];
 
     const LeftContent = (props: LeftContentProps) => <Avatar.Icon {...props} icon="folder" />
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const totalPages = Math.ceil(dataArray.length / PAGE_SIZE);
+    const totalPages = Math.ceil(data.length / PAGE_SIZE);
 
     const handlePrevPage = () => {
         setCurrentPage((prevPage) => prevPage - 1);
@@ -73,7 +73,7 @@ const AssignmentsPagnition: React.FC = () => {
     return (
         <View style={styles.container}>
             <FlatList
-                data={dataArray.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)}
+                data={data.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)}
                 renderItem={renderItem}
                 keyExtractor={(_, index) => index.toString()}
                 ListEmptyComponent={<Text style={styles.emptyText}>אין תוצאות</Text>}

@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 interface DatePickerProps {
     value: Date | undefined;
     onChange: (value: Date | undefined) => void;
+
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
@@ -13,8 +14,10 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
     const [showPicker, setShowPicker] = useState(false);
 
     const handleDateChange = (event: DateTimePickerEvent, date?: Date) => {
+        console.log(event.type)
+        
         setShowPicker(false);
-        if (date !== undefined) {
+        if (date !== undefined && event.type !== "dismissed") {
             setInternalValue(date);
             onChange(date);
         }
@@ -22,7 +25,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
 
     return (
         <View>
-            <Button title={internalValue === undefined ? "בחר תאריך" : internalValue.toLocaleDateString()} onPress={() => setShowPicker(true)} />
+            <Button title={internalValue === undefined ? "בחר תאריך" : format(internalValue, 'dd/MM/yyyy')} onPress={() => setShowPicker(true)} />
             {showPicker && (
                 <RNDateTimePicker
                     value={internalValue || new Date()}
@@ -32,6 +35,8 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
                     positiveButtonLabel="בחר"
                     display="default"
                     onChange={handleDateChange}
+                    negativeButtonLabel="ביטול"
+
                 />
             )}
         </View>

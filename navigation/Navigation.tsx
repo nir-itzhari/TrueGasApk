@@ -6,6 +6,7 @@ import AppStack from './AppStack';
 import useAuth from './../hooks/useAuth';
 import AuthStack from './AuthStack';
 import { ClientPickerProvider } from './ClientPickerContext';
+import ApiContextProvider from '../hooks/useApi';
 // import { UserPickerProvider } from './UserPickerContext';
 
 
@@ -22,14 +23,17 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 
     return (
       <ClientPickerProvider>
-        {/* <UserPickerProvider> */}
-        <NavigationContainer
-          linking={LinkingConfiguration}
-          theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ApiContextProvider>
+          {/* <UserPickerProvider> */}
+          <NavigationContainer
+            linking={LinkingConfiguration}
+            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 
-          {token !== null ? <AppStack /> : <AuthStack />}
-        </NavigationContainer>
-        {/* </UserPickerProvider> */}
+            {token !== null ? <AppStack /> : <AuthStack />}
+
+          </NavigationContainer>
+          {/* </UserPickerProvider> */}
+        </ApiContextProvider>
       </ClientPickerProvider>
     );
   }

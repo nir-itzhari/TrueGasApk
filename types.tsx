@@ -6,6 +6,7 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import AssignmentModel from './Models/AssignmentModel';
 
 declare global {
   namespace ReactNavigation {
@@ -22,6 +23,7 @@ export type AssignmentsStackParamList = {
   AssignmentsListScreen: undefined;
   AddAssignmentScreen: undefined;
   AddClientScreenModal: undefined;
+  AssignmentCardScreen: { assignmentId: string }
 }
 
 export type RootStackParamList = {
@@ -51,6 +53,7 @@ export type RootTabParamList = {
   Assignments: NavigatorScreenParams<AssignmentsStackParamList> | undefined;
   AddAssignment: undefined;
   AddClientScreenModal: undefined;
+  AssignmentCardScreen: { assignmentId: string }
 
 };
 

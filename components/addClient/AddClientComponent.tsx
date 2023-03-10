@@ -4,7 +4,6 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { View, Text, StyleSheet, Platform, ScrollView } from 'react-native';
 import { Button, Switch, TextInput } from 'react-native-paper';
 import { ClientModel } from '../../Models/ClientModel';
-import { KeyboardAvoidingContext } from '../../navigation/AKeyboard';
 import RadioGroup from '../RadioButton';
 import { IsBuildingForm } from './IsBuildingForm';
 import { NameAndAddressForm } from './NameAndAddressForm';
@@ -19,14 +18,13 @@ export default function AddClientForm() {
   const handleBuildingTypeChange = (value: string) => {
     setBuildingType(value);
   };
-  const keyboardAvoidingRef = useContext(KeyboardAvoidingContext);
 
   const onSubmit: SubmitHandler<ClientModel> = (client) => {
     console.log(client); // print the client object on the console
   }
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false} ref={keyboardAvoidingRef}>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false}>
       <View style={styles.form}>
         <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
           <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginHorizontal: 0 }}>
