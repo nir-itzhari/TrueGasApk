@@ -193,14 +193,19 @@ const CustomPicker = ({ onSelect, style, selectedTextStyle, unselectedTextStyle 
     };
 
     useEffect(() => {
-        getClients();
-        if (isInternetReachable && isServerOnline) {
-        }
-        else if (!isInternetReachable) {
-            ToastAndroid.show('No internet access', 10000);
-        }
-        else {
-            ToastAndroid.show('Server is Offline', 10000);
+        switch (true) {
+            case isInternetReachable && isServerOnline:
+                getClients();
+                break;
+            case !isInternetReachable:
+                ToastAndroid.show('No internet access', 10000);
+                break;
+            case !isServerOnline:
+                ToastAndroid.show('Server is Offline', 10000);
+                break;
+            default:
+                ToastAndroid.show('No internet access and Server is Offline', 10000);
+                break;
         }
     }, []);
 
