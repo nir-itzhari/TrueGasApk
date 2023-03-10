@@ -212,7 +212,7 @@ const CustomPicker = ({ onSelect, style, selectedTextStyle, unselectedTextStyle 
 
     return (
         <View style={[styles.container, style]}>
-            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems:"center" }}>
+            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                 <TouchableOpacity style={styles.touchableOpacity} onPress={toggleList}>
                     <Text style={[styles.selectedText, selectedItem && selectedTextStyle]}>{selectedItem ? selectedItem.fullName : 'בחר לקוח'}</Text>
                 </TouchableOpacity>
@@ -236,6 +236,11 @@ const CustomPicker = ({ onSelect, style, selectedTextStyle, unselectedTextStyle 
                                         </View>
                                     </TouchableOpacity>
                                 ))}
+                                <View style={{ alignItems: "center" }}>
+                                    <Text>
+                                        {clients.length === 0 ? "אין תוצאות" : ""}
+                                    </Text>
+                                </View>
                             </View>
                             <TouchableOpacity onPress={() => setShowList(false)}>
                                 <Text style={styles.cancelButton}>ביטול</Text>
@@ -283,6 +288,7 @@ const styles = StyleSheet.create({
     },
     modalItemsContainer: {
         marginTop: 20,
+
     },
     modalItem: {
         flexDirection: 'row',

@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { AssignmentsStackScreenProps } from '../../types';
-import { Button, RadioButton, TextInput } from 'react-native-paper';
+import { Button, Dialog, IconButton, Portal, Provider, RadioButton, TextInput, Text as PaperText, Tooltip } from 'react-native-paper';
 import { AuthContext } from '../../navigation/AuthContext';
 import { Switch } from 'react-native-paper';
 import AssignmentModel from '../../Models/AssignmentModel';
 import AssignmentDatePicker from './DatePicker';
 import CustomPicker from '../CustomDatePicker/CustomPicker';
 import { useApi } from '../../hooks/useApi';
+import CustomButton from '../button/CustomButton';
+import Memo from '../Memo';
 
 
 export default function AddAssignmentScreen({ navigation }: AssignmentsStackScreenProps<'AddAssignmentScreen'>) {
@@ -17,6 +19,7 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
     const [isSwitchOn, setIsSwitchOn] = useState<boolean>(true);
     const [isDone, setIsDone] = useState("true");
     const { isInternetReachable, isServerOnline } = useApi()
+    const [loading, setLoading] = useState(false);
 
     const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
@@ -26,20 +29,18 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
     };
 
     const onSubmit: SubmitHandler<AssignmentModel> = async (assignment) => {
+        setLoading(true)
         assignment.user_id = user_id;
         assignment.isDone = isDone === "true" ? true : false
-        console.log(assignment)
+        setTimeout(() => {
+            setLoading(false)
+            console.log(assignment)
+            navigation.navigate("AssignmentsListScreen")
+        }, 3000)
 
     };
 
-    const AddClientButton = () => {
 
-        return (
-            <View>
-                <Button style={{ margin: 10 }} icon="plus" mode="contained" onPress={() => navigation.navigate("AddClientScreenModal")}>הוסף לקוח</Button>
-            </View>
-        )
-    }
     useEffect(() => {
         navigation.setOptions({
             title: "הוסף משימה",
@@ -55,6 +56,7 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
                     <Text style={styles.headerText}>לקוח קיים?</Text>
                 </View>
                 <View style={styles.clientPickerContainer}>
+                    <Memo />
                     {isSwitchOn ? (
                         <Controller
                             control={control}
@@ -62,10 +64,11 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
                                 <CustomPicker onSelect={onChange} />
                             )}
                             name="client_id"
-                            rules={{ required: true }}
+                        // rules={{ required: true }}
                         />
                     ) : (
-                        <AddClientButton />
+                        // <CustomButton mode="outlined" color="#F44336" onPress={() => navigation.navigate("AddClientScreenModal")}>Or press me!</CustomButton>
+                        <Button style={{ margin: 10 }} icon="plus" mode="contained" onPress={() => navigation.navigate("AddClientScreenModal")}>הוסף לקוח</Button>
                     )}
                     {errors.client_id && <Text style={styles.error}>*שדה חובה</Text>}
                 </View>
@@ -77,6 +80,8 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
                     name="date"
                     rules={{ required: true }}
                 />
+                {errors.date && <Text style={styles.error}>*שדה חובה</Text>}
+
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
@@ -132,11 +137,13 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
                 </View>
 
                 <Button
+                    disabled={loading}
                     mode="contained"
                     style={styles.button}
                     onPress={handleSubmit(onSubmit)}
+                    loading={loading}
                 >
-                    הוסף משימה
+                    {loading ? 'שולח...' : 'הוסף משימה'}
                 </Button>
             </View >
         </ScrollView>
