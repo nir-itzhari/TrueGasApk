@@ -5,7 +5,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import AppStack from './AppStack';
 import useAuth from './../hooks/useAuth';
 import AuthStack from './AuthStack';
-import { ClientPickerProvider } from './ClientPickerContext';
+// import { ClientPickerProvider } from './ClientPickerContext';
 import ApiContextProvider from '../hooks/useApi';
 // import { UserPickerProvider } from './UserPickerContext';
 
@@ -22,8 +22,8 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   } else {
 
     return (
-      <ClientPickerProvider>
-        <ApiContextProvider>
+      <ApiContextProvider>
+        {/* <ClientPickerProvider> */}
           {/* <UserPickerProvider> */}
           <NavigationContainer
             linking={LinkingConfiguration}
@@ -33,8 +33,8 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 
           </NavigationContainer>
           {/* </UserPickerProvider> */}
-        </ApiContextProvider>
-      </ClientPickerProvider>
+        {/* </ClientPickerProvider> */}
+      </ApiContextProvider>
     );
   }
 }
