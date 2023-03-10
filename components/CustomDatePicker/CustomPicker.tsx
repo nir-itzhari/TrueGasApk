@@ -142,6 +142,7 @@ import { Modal, StyleSheet, Text, View, TouchableOpacity, ToastAndroid } from 'r
 import { useApi } from '../../hooks/useApi';
 import { ClientModel } from '../../Models/ClientModel';
 import config from '../../Utils/Config';
+import { Entypo } from '@expo/vector-icons';
 
 interface PickerItem {
     id: string;
@@ -211,9 +212,14 @@ const CustomPicker = ({ onSelect, style, selectedTextStyle, unselectedTextStyle 
 
     return (
         <View style={[styles.container, style]}>
-            <TouchableOpacity style={styles.touchableOpacity} onPress={toggleList}>
-                <Text style={[styles.selectedText, selectedItem && selectedTextStyle]}>{selectedItem ? selectedItem.fullName : 'בחר לקוח'}</Text>
-            </TouchableOpacity>
+            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems:"center" }}>
+                <TouchableOpacity style={styles.touchableOpacity} onPress={toggleList}>
+                    <Text style={[styles.selectedText, selectedItem && selectedTextStyle]}>{selectedItem ? selectedItem.fullName : 'בחר לקוח'}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={clearSelection}>
+                    <Text style={[styles.selectedText, selectedItem && selectedTextStyle]}>{selectedItem && <Entypo name="circle-with-cross" size={24} color="black" />}</Text>
+                </TouchableOpacity>
+            </View>
             {showList && (
                 <Modal animationType="slide" transparent={true} visible={showList} onRequestClose={() => setShowList(false)}>
                     <View style={styles.modalContainer}>
