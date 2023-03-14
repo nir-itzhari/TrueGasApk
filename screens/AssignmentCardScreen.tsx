@@ -4,9 +4,11 @@ import { RootTabScreenProps } from '../types';
 import AssignmentModel from './../Models/AssignmentModel';
 import axios from 'axios';
 import config from './../Utils/Config';
+import { useAppColorScheme } from '../hooks/useAppColorScheme';
 
 export default function AssignmentCardScreen({ route, navigation }: RootTabScreenProps<"AssignmentCardScreen">) {
   const [assignment, setAssignment] = useState<AssignmentModel>()
+  const { appColorScheme } = useAppColorScheme();
 
 
   const routeParam = route.params
@@ -29,9 +31,9 @@ export default function AssignmentCardScreen({ route, navigation }: RootTabScree
 
 
   return (
-    <View style={styles.form}>
-      <Text>{routeParam.assignmentId}</Text>
-    </View>
+    <View style={{ ...styles.form, shadowColor: appColorScheme === "dark" ? 'white' : "#000000", backgroundColor: appColorScheme === "dark" ? "black" : "white" }}>
+      <Text style={{ color: appColorScheme === "dark" ? "white" : "black" }}>{routeParam.assignmentId}</Text>
+    </View >
   );
 };
 
@@ -39,9 +41,7 @@ export default function AssignmentCardScreen({ route, navigation }: RootTabScree
 const styles = StyleSheet.create({
   form: {
     padding: 16,
-    backgroundColor: '#ffffff',
     borderRadius: 8,
-    shadowColor: '#000000',
     shadowOpacity: 0.2,
     shadowOffset: {
       width: 0,

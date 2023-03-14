@@ -6,6 +6,7 @@ import AssignmentModel from '../../Models/AssignmentModel';
 import AssignmentRow from '../assignmentsFlatList/assignmentRow';
 import { AssignmentsStackParamList, RootTabScreenProps } from '../../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
+import { useAppColorScheme } from '../../hooks/useAppColorScheme';
 
 export interface Assignment {
     assignmentId: string;
@@ -26,6 +27,9 @@ interface Props {
 }
 
 export default function AssignmentsTable({ data, navigation }: Props) {
+    const { appColorScheme } = useAppColorScheme();
+
+    
     // const dataArray: Assignment[] = [
     //     { assignmentId: "1", date: new Date(2022, 1, 1), title: 'משימה 1', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false, action: () => { } },
     //     { assignmentId: "2", date: new Date(2022, 1, 2), title: 'משימה 2', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: true, action: () => { } },
@@ -92,7 +96,7 @@ export default function AssignmentsTable({ data, navigation }: Props) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.tableHeader}>
+            <View style={appColorScheme === "dark" ? styles.tableHeaderDark : styles.tableHeader}>
                 {renderColumnHeader('date', 'תאריך')}
                 {renderColumnHeader('title', 'סוג')}
                 {renderColumnHeader('isDone', 'סטטוס')}
@@ -124,6 +128,15 @@ const styles = StyleSheet.create({
         borderTopStartRadius: 10,
         height: 50
     },
+    tableHeaderDark: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: "royalblue",
+        borderTopEndRadius: 10,
+        borderTopStartRadius: 10,
+        height: 50
+    },
     columnHeader: {
         flex: 1,
         flexDirection: 'row',
@@ -131,7 +144,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     columnHeaderTxt: {
-
+        color: "white",
         fontWeight: 'bold',
         marginRight: 4,
     },

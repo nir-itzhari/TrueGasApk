@@ -1,7 +1,8 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Pressable } from "react-native";
+import { Pressable, useColorScheme } from "react-native";
 import AddAssignmentScreen from "../components/addAssignmentForm/AddAssignmentForm";
+import { useAppColorScheme } from "../hooks/useAppColorScheme";
 import AddClientScreenModal from "../screens/AddClientScreenModal";
 import AssignmentsListScreen from "../screens/AssignmentsListScreen";
 import { AssignmentsStackParamList, AssignmentsStackScreenProps } from "../types";
@@ -12,7 +13,10 @@ import AssignmentCardScreen from './../screens/AssignmentCardScreen';
 
 export function AssignmentsStack() {
     const Stack = createNativeStackNavigator<AssignmentsStackParamList>();
+    const { appColorScheme } = useAppColorScheme();
 
+
+    
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -29,7 +33,7 @@ export function AssignmentsStack() {
                             style={({ pressed }) => ({
                                 opacity: pressed ? 0.5 : 1,
                             })}>
-                            <MaterialIcons style={{ marginRight: 16 }} name="add-task" size={24} color="black" />
+                            <MaterialIcons style={{ marginRight: 16 }} name="add-task" size={24} color={appColorScheme === "dark" ? "white" : "black"} />
                         </Pressable>
                     ),
                 })}

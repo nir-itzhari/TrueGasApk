@@ -6,22 +6,22 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 // import useAxios from '../hooks/useAxios';
+import { useAppColorScheme } from '../hooks/useAppColorScheme';
 
 
 
 export default function LoginScreen({ navigation }: AuthStackScreenProps<'Login'>) {
-
+    const { appColorScheme } = useAppColorScheme();
     const [isUserIdFocused, setIsUserIdFocused] = useState(null);
     const [isPasswordFocused, setIsPasswordFocused] = useState(null);
     const { control, handleSubmit, formState: { errors } } = useForm();
     const imageSource = require('../assets/images/truegas.jpg')
     const { login } = useAuth()
 
-
     const submit: (credentials: FieldValues) => Promise<void> = async (credentials) => {
         const { user_id, password } = credentials;
         login({ user_id, password })
-        
+
     }
 
     const handleUserIdChange = (value: string) => {
@@ -105,14 +105,16 @@ export default function LoginScreen({ navigation }: AuthStackScreenProps<'Login'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
         alignItems: "center",
         justifyContent: "center",
     },
     image: {
         marginBottom: 40,
         width: 200,
-        height: 100
+        height: 100,
+        borderWidth: 1,
+        borderColor:"white",
+        borderRadius: 8,        
     },
     inputView: {
         backgroundColor: "#FFC0CB",

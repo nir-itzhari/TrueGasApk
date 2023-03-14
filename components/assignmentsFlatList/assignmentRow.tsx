@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
+import { useAppColorScheme } from '../../hooks/useAppColorScheme';
 import AssignmentModel from '../../Models/AssignmentModel';
 // import { Assignment } from '../CustomDatePicker/AssignmentsTable';
 
@@ -11,6 +12,7 @@ interface AssignmentRowProps {
 }
 
 export default function AssignmentRow({ assignment, index, handlePress, }: AssignmentRowProps) {
+    const { appColorScheme } = useAppColorScheme();
 
 
 
@@ -20,20 +22,17 @@ export default function AssignmentRow({ assignment, index, handlePress, }: Assig
 
     return (
         <View
-            style={{
-                ...styles.tableRow,
-                backgroundColor: index % 2 == 1 ? '#F0FBFC' : 'white',
-            }}
+            style={{ ...styles.tableRow, backgroundColor: appColorScheme === "dark" ? "black" : '#F0FBFC' }}
         >
-            <Text style={{ ...styles.columnRowTxt, fontWeight: 'bold' }}>
+            <Text style={[appColorScheme === "dark" ? styles.columnRowTxt : styles.columnRowTxtDark, { fontWeight: "bold" }]}>
                 {moment(assignment.date).format('DD/MM/YYYY').toLocaleString()}
             </Text>
-            <Text style={styles.columnRowTxt}>{assignment.title}</Text>
-            <Text style={styles.columnRowTxt}>
+            <Text style={[appColorScheme === "dark" ? styles.columnRowTxt : styles.columnRowTxtDark]}>{assignment.title}</Text>
+            <Text style={[appColorScheme === "dark" ? styles.columnRowTxt : styles.columnRowTxtDark]}>
                 {assignment.isDone ? 'בוצע' : 'לא בוצע'}
             </Text>
-            <TouchableOpacity style={styles.rowButton} onPress={handleRowPress}>
-                <Text style={styles.rowButtonText}>{'<'}</Text>
+            <TouchableOpacity style={[appColorScheme === "dark" ? styles.rowButtonDark : styles.rowButton]} onPress={handleRowPress}>
+                <Text style={[appColorScheme === "dark" ? styles.rowButtonTextDark : styles.rowButtonText]}>{'<'}</Text>
             </TouchableOpacity>
         </View>
     );
@@ -44,11 +43,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 40,
         alignItems: 'center',
+
     },
     columnRowTxt: {
         width: '25%',
         textAlign: 'center',
         fontSize: 14,
+        color: "white"
+    },
+    columnRowTxtDark: {
+        width: '25%',
+        textAlign: 'center',
+        fontSize: 14,
+        color: "black"
+
     },
     rowButton: {
         width: 50,
@@ -59,10 +67,24 @@ const styles = StyleSheet.create({
         marginLeft: 25,
         borderRadius: 10
     },
+    rowButtonDark: {
+        width: 50,
+        height: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'royalblue',
+        marginLeft: 25,
+        borderRadius: 10
+    },
     rowButtonText: {
         fontSize: 14,
         fontWeight: '900',
         color: 'black',
+    },
+    rowButtonTextDark: {
+        fontSize: 14,
+        fontWeight: '900',
+        color: 'white',
     },
     actionColumnHeader: {
         width: 20,

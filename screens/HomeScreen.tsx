@@ -4,6 +4,7 @@ import { View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import useAuth from './../hooks/useAuth';
 import { Text } from 'react-native';
+import { useAppColorScheme } from '../hooks/useAppColorScheme';
 
 
 
@@ -11,11 +12,12 @@ import { Text } from 'react-native';
 
 export default function HomeScreen({ navigation, route }: RootTabScreenProps<'Home'>) {
   const { user_id } = useAuth();
+  const { appColorScheme } = useAppColorScheme();
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Text style={styles.title}>בית</Text>
+      <Text style={{ ...styles.title, color: appColorScheme === "dark" ? "white" : "black" }}>בית</Text>
       <View>
       </View>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />

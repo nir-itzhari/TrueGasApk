@@ -20,6 +20,7 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
     const [isDone, setIsDone] = useState("true");
     const { isInternetReachable, isServerOnline } = useApi()
     const [loading, setLoading] = useState(false);
+    const { appColorScheme } = useAppColorScheme();
 
     const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
@@ -32,12 +33,13 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
         setLoading(true)
         assignment.user_id = user_id;
         assignment.isDone = isDone === "true" ? true : false
-        setTimeout(() => {
-            setLoading(false)
-            console.log(assignment)
-            navigation.navigate("AssignmentsListScreen")
-        }, 3000)
-
+        try {
+            
+        } catch (error) {
+            
+        }
+        setLoading(false)
+        navigation.navigate("AssignmentsListScreen")
     };
 
 
@@ -53,7 +55,7 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
             <View style={styles.formContainer}>
                 <View style={styles.header}>
                     <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
-                    <Text style={styles.headerText}>לקוח קיים?</Text>
+                    <Text style={{ ...styles.headerText, color: appColorScheme === "dark" ? "white" : "black" }}>לקוח קיים?</Text>
                 </View>
                 <View style={styles.clientPickerContainer}>
                     <Memo />
@@ -123,15 +125,15 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
                 {errors.description && <Text style={styles.error}>*שדה חובה</Text>}
 
                 <View style={styles.isDoneContainer}>
-                    <Text>בוצעה?</Text>
+                    <Text style={{ color: appColorScheme === "dark" ? "white" : "black" }}>בוצעה?</Text>
                     <RadioButton.Group onValueChange={handleIsDoneChange} value={isDone}>
                         <View style={styles.radioButtonContainer}>
                             <RadioButton value="true" />
-                            <Text style={styles.radioButtonText}>כן</Text>
+                            <Text style={{ ...styles.radioButtonText, color: appColorScheme === "dark" ? "white" : "black" }}>כן</Text>
                         </View>
                         <View style={styles.radioButtonContainer}>
                             <RadioButton value="false" />
-                            <Text style={styles.radioButtonText}>לא</Text>
+                            <Text style={{ ...styles.radioButtonText, color: appColorScheme === "dark" ? "white" : "black" }}>לא</Text>
                         </View>
                     </RadioButton.Group>
                 </View>
@@ -209,6 +211,8 @@ const styles = StyleSheet.create({
 // import { Switch } from 'react-native-paper';
 // import AssignmentModel from '../../Models/AssignmentModel';
 // import AssignmentDatePicker from './DatePicker';
+import { useColorScheme } from 'react-native';
+import { useAppColorScheme } from '../../hooks/useAppColorScheme';
 
 // export default function AddAssignmentScreen({ navigation }: AssignmentsStackScreenProps<'AddAssignmentScreen'>) {
 //     const { register, control, setValue, handleSubmit, formState: { errors }, reset } = useForm<AssignmentModel>();

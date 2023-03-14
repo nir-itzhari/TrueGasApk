@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useColorScheme, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { RootStackParamList } from "../types";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import NotFoundScreen from "../screens/NotFoundScreen";
@@ -24,7 +24,6 @@ const AppStack = () => {
 export default AppStack
 
 function BottomTabNavigator() {
-    const colorScheme = useColorScheme();
 
     return (
         <SafeAreaProvider>

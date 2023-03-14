@@ -143,6 +143,8 @@ import { useApi } from '../../hooks/useApi';
 import { ClientModel } from '../../Models/ClientModel';
 import config from '../../Utils/Config';
 import { Entypo } from '@expo/vector-icons';
+import { useColorScheme } from 'react-native';
+import { useAppColorScheme } from '../../hooks/useAppColorScheme';
 
 interface PickerItem {
     id: string;
@@ -161,6 +163,8 @@ const CustomPicker = ({ onSelect, style, selectedTextStyle, unselectedTextStyle 
     const [clients, setClients] = useState<PickerItem[]>([]);
     const [showList, setShowList] = useState(false);
     const { isInternetReachable, isServerOnline } = useApi()
+    const { appColorScheme } = useAppColorScheme();
+
 
     const toggleList = () => {
         setShowList(!showList);
@@ -214,24 +218,25 @@ const CustomPicker = ({ onSelect, style, selectedTextStyle, unselectedTextStyle 
         <View style={[styles.container, style]}>
             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                 <TouchableOpacity style={styles.touchableOpacity} onPress={toggleList}>
-                    <Text style={[styles.selectedText, selectedItem && selectedTextStyle]}>{selectedItem ? selectedItem.fullName : 'בחר לקוח'}</Text>
+                    <Text style={[appColorScheme === "dark" ? styles.selectedText : styles.selectedTextDark, selectedItem && selectedTextStyle]}>{selectedItem ? selectedItem.fullName : 'בחר לקוח'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={clearSelection}>
-                    <Text style={[styles.selectedText, selectedItem && selectedTextStyle]}>{selectedItem && <Entypo name="circle-with-cross" size={24} color="black" />}</Text>
+                    <Text style={[appColorScheme === "dark" ? styles.selectedText : styles.selectedTextDark, selectedItem && selectedTextStyle]}>{selectedItem && <Entypo name="circle-with-cross" size={24} color={appColorScheme === "dark" ? "white" : "black"} />}</Text>
                 </TouchableOpacity>
             </View>
             {showList && (
                 <Modal animationType="slide" transparent={true} visible={showList} onRequestClose={() => setShowList(false)}>
                     <View style={styles.modalContainer}>
-                        <View style={styles.modal}>
+                        <View style={{ ...styles.modal, backgroundColor: appColorScheme === "dark" ? "black" : "#fff" }}>
                             <TouchableOpacity onPress={clearSelection}>
+
                                 <Text style={styles.clearButton}>איפוס</Text>
                             </TouchableOpacity>
                             <View style={styles.modalItemsContainer}>
                                 {clients.map((item: PickerItem) => (
                                     <TouchableOpacity key={item.id} onPress={() => handlePress(item)}>
                                         <View style={styles.modalItem}>
-                                            <Text style={[styles.modalText, selectedItem?.id === item.id && styles.selectedItemText]}>{item.fullName}</Text>
+                                            <Text style={[appColorScheme === "dark" ? styles.modalText : styles.modalTextDark && selectedItem?.id === item.id ? styles.selectedItemTextDark : styles.selectedItemText]}>{item.fullName}</Text>
                                             {selectedItem?.id === item.id && <Text style={styles.checkmark}>✓</Text>}
                                         </View>
                                     </TouchableOpacity>
@@ -268,7 +273,12 @@ const styles = StyleSheet.create({
     selectedText: {
         fontSize: 18,
         fontWeight: '600',
-        color: '#000',
+        color: 'white',
+    },
+    selectedTextDark: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: 'black',
     },
     modalContainer: {
         flex: 1,
@@ -289,18 +299,31 @@ const styles = StyleSheet.create({
     modalItemsContainer: {
         marginTop: 20,
 
+
     },
     modalItem: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 10,
+
     },
     modalText: {
         flex: 1,
         fontSize: 16,
+        color: "white"
+    },
+    modalTextDark: {
+        flex: 1,
+        fontSize: 16,
+        color: "black"
     },
     selectedItemText: {
         fontWeight: 'bold',
+        color: "black"
+    },
+    selectedItemTextDark: {
+        fontWeight: 'bold',
+        color: "white"
     },
     checkmark: {
         fontSize: 16,

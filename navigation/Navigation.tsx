@@ -5,13 +5,14 @@ import LinkingConfiguration from './LinkingConfiguration';
 import AppStack from './AppStack';
 import useAuth from './../hooks/useAuth';
 import AuthStack from './AuthStack';
-// import { ClientPickerProvider } from './ClientPickerContext';
 import ApiContextProvider from '../hooks/useApi';
-// import { UserPickerProvider } from './UserPickerContext';
+import { useAppColorScheme } from '../hooks/useAppColorScheme';
 
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+  const { appColorScheme } = useAppColorScheme();
+
   const { isLoading, token } = useAuth()
   if (isLoading) {
     return (
@@ -24,15 +25,13 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     return (
       <ApiContextProvider>
         {/* <ClientPickerProvider> */}
-          {/* <UserPickerProvider> */}
           <NavigationContainer
             linking={LinkingConfiguration}
-            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            theme={appColorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 
-            {token !== null ? <AppStack /> : <AuthStack />}
+            {token !== null ?  <AppStack /> : <AuthStack />}
 
           </NavigationContainer>
-          {/* </UserPickerProvider> */}
         {/* </ClientPickerProvider> */}
       </ApiContextProvider>
     );

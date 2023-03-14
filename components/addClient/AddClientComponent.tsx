@@ -7,11 +7,14 @@ import { ClientModel } from '../../Models/ClientModel';
 import RadioGroup from '../RadioButton';
 import { IsBuildingForm } from './IsBuildingForm';
 import { NameAndAddressForm } from './NameAndAddressForm';
+import { useColorScheme } from 'react-native';
+import { useAppColorScheme } from '../../hooks/useAppColorScheme';
 
 
 export default function AddClientForm() {
-
   const { register, control, handleSubmit, reset, formState: { errors }, } = useForm<ClientModel>();
+  const { appColorScheme } = useAppColorScheme();
+
   const [phoneTwo, setphoneTwo] = useState<boolean>(false);
   const onToggleSwitch = () => setphoneTwo(!phoneTwo);
   const [buildingType, setBuildingType] = useState('house');
@@ -25,11 +28,11 @@ export default function AddClientForm() {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false}>
-      <View style={styles.form}>
+      <View style={{ ...styles.form, shadowColor: appColorScheme === "dark" ? 'white' : "#000000", backgroundColor: appColorScheme === "dark" ? "black" : "white" }}>
         <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
           <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginHorizontal: 0 }}>
             <Switch value={phoneTwo} onValueChange={onToggleSwitch} />
-            <Text >נייד נוסף?</Text>
+            <Text style={{color: appColorScheme === "dark" ? "white" : "black"}}>נייד נוסף?</Text>
           </View>
           <RadioGroup
             options={[
@@ -55,9 +58,7 @@ export default function AddClientForm() {
 const styles = StyleSheet.create({
   form: {
     padding: 16,
-    backgroundColor: '#ffffff',
     borderRadius: 8,
-    shadowColor: '#000000',
     shadowOpacity: 0.2,
     shadowOffset: {
       width: 0,

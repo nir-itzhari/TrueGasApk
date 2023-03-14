@@ -5,7 +5,6 @@ import { RootTabParamList, RootTabScreenProps, AssignmentsStackParamList } from 
 import HomeScreen from '../screens/HomeScreen';
 import ReportsScreen from '../screens/ReportsScreen';
 import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
 import React from 'react';
 import { Pressable, ToastAndroid, View } from 'react-native';
 import AssignmentsListScreen from '../screens/AssignmentsListScreen';
@@ -13,19 +12,20 @@ import useAuth from '../hooks/useAuth';
 import AddAssignmentScreen from './addAssignmentForm/AddAssignmentForm';
 import { AssignmentsStack } from './../navigation/AssignmentsStack';
 import { Text } from 'react-native-paper';
+import { useAppColorScheme } from '../hooks/useAppColorScheme';
+import useColorScheme from '../hooks/useColorScheme';
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const { appColorScheme } = useAppColorScheme();
   const { logout, user_id } = useAuth();
 
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
-      
-      screenOptions={{   
+      screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
@@ -38,7 +38,6 @@ export default function BottomTabNavigator() {
           headerRight: () => (
             <Pressable
               onPress={() => {
-                // navigation.navigate('Modal');
                 logout();
                 ToastAndroid.show("להתראות!", 3000);
               }}
@@ -46,8 +45,8 @@ export default function BottomTabNavigator() {
                 opacity: pressed ? 0.5 : 1,
               })}>
               <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                <Text style={{ fontWeight: "bold" }}>יציאה</Text>
-                <MaterialIcons style={{ marginRight: 16, marginLeft: 5 }} name="logout" size={24} color="black" />
+                <Text style={[{ fontWeight: "bold", color: appColorScheme === "dark" ? "white" : "black" }]}>יציאה</Text>
+                <MaterialIcons style={{ marginRight: 16, marginLeft: 5 }} name="logout" size={24} color={appColorScheme === "dark" ? "white" : "black"} />
               </View>
             </Pressable>
           ),
@@ -62,8 +61,6 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="edit" color={color} />,
         }}
       />
-
-      
       <BottomTab.Screen
         name="Assignments"
         component={AssignmentsStack}

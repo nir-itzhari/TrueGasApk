@@ -165,6 +165,8 @@ import { TouchableOpacity, Text } from 'react-native';
 import { addDays, subDays, format } from 'date-fns';
 import { useState } from 'react';
 import he from 'date-fns/locale/he';
+import { useColorScheme } from 'react-native';
+import { useAppColorScheme } from '../../hooks/useAppColorScheme';
 
 interface DataPagnitionProps {
     handleDatePressed: (date: string) => void
@@ -174,7 +176,8 @@ export const DataPagnition = ({ handleDatePressed }: DataPagnitionProps) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(currentDate);
     const [scrollPosition, setScrollPosition] = useState(0);
-
+    const colorScheme = useColorScheme()
+    const { appColorScheme } = useAppColorScheme();
 
 
     const handleDatePress = (date: Date) => {
@@ -220,15 +223,15 @@ export const DataPagnition = ({ handleDatePressed }: DataPagnitionProps) => {
     const dates = getDatesToShow();
 
     return (
-        <View style={styles.container}>
+        <View style={appColorScheme === "dark" ? styles.container : styles.containerDark}>
             <TouchableOpacity onPress={getDatesToShow} style={[styles.currentDayDate]}>
-                <Text style={[styles.weekday, styles.selectedDateText]}>
+                <Text style={[styles.weekday, appColorScheme === "dark" ? styles.selectedDateText : styles.selectedDateTextDark]}>
                     {format(new Date(), 'EEEE', { locale: he })}
                 </Text>
-                <Text style={[styles.date, styles.selectedDateText]}>
+                <Text style={[styles.date, appColorScheme === "dark" ? styles.selectedDateText : styles.selectedDateTextDark]}>
                     {format(new Date(), 'dd/MM')}
                 </Text>
-                <Text style={[styles.date, styles.selectedDateText]}>
+                <Text style={[styles.date, appColorScheme === "dark" ? styles.selectedDateText : styles.selectedDateTextDark]}>
                     היום
                 </Text>
             </TouchableOpacity>
@@ -250,10 +253,10 @@ export const DataPagnition = ({ handleDatePressed }: DataPagnitionProps) => {
                         key={date.toISOString()}
                         onPress={() => handleDatePress(date)}
                         style={[styles.dateWrapper, date === selectedDate && styles.selectedDateWrapper, index === 2 && styles.centerDateWrapper]}>
-                        <Text style={[styles.weekday, format(date, 'EEEE') === format(new Date(), 'EEEE') && format(date, 'dd/MM') === format(new Date(), 'dd/MM')  && styles.selectedDateText]}>
+                        <Text style={[styles.weekday, format(date, 'EEEE') === format(new Date(), 'EEEE') && format(date, 'dd/MM') === format(new Date(), 'dd/MM') && styles.selectedDateText]}>
                             {format(date, 'EEEE', { locale: he })}
                         </Text>
-                        <Text style={[styles.date, format(date, 'dd/MM') === format(new Date(), 'dd/MM') && styles.selectedDateText]}>
+                        <Text style={[styles.date, format(date, 'dd/MM') === format(new Date(), 'dd/MM') && appColorScheme === "dark" ? styles.selectedDateText : styles.selectedDateTextDark]}>
                             {format(date, 'dd/MM')}
                         </Text>
                     </TouchableOpacity>
@@ -270,6 +273,13 @@ export const DataPagnition = ({ handleDatePressed }: DataPagnitionProps) => {
 
 const styles = StyleSheet.create({
     container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: 'black',
+        paddingVertical: 5,
+    },
+    containerDark: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -296,7 +306,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 5,
         marginHorizontal: 5,
-        backgroundColor: '#F5F5F5',
+        backgroundColor: '#ccc',
     },
     selectedDateWrapper: {
         backgroundColor: '#007AFF',
@@ -306,7 +316,13 @@ const styles = StyleSheet.create({
         transform: [{ scale: 1.1 }]
     },
     selectedDateText: {
-        color: 'black',
+        color: "black",
+        fontSize: 16,
+        fontWeight: '900',
+
+    },
+    selectedDateTextDark: {
+        color: "black",
         fontSize: 16,
         fontWeight: '900',
 
@@ -329,5 +345,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginHorizontal: 5,
     },
-  
+
 });

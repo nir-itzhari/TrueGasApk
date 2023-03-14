@@ -11,7 +11,7 @@ const AuthStack = () => {
     return (
         <SafeAreaProvider>
             <Stack.Navigator>
-                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Login" component={LoginScreen} options={{ title: "כניסה", headerTitleAlign: "center" }} />
             </Stack.Navigator>
         </SafeAreaProvider>
     );
