@@ -124,6 +124,8 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
                 />
                 {errors.description && <Text style={styles.error}>*שדה חובה</Text>}
 
+               <ImagePickerExample />
+
                 <View style={styles.isDoneContainer}>
                     <Text style={{ color: appColorScheme === "dark" ? "white" : "black" }}>בוצעה?</Text>
                     <RadioButton.Group onValueChange={handleIsDoneChange} value={isDone}>
@@ -213,6 +215,7 @@ const styles = StyleSheet.create({
 // import AssignmentDatePicker from './DatePicker';
 import { useColorScheme } from 'react-native';
 import { useAppColorScheme } from '../../hooks/useAppColorScheme';
+import ImagePickerExample from './ImagePicker';
 
 // export default function AddAssignmentScreen({ navigation }: AssignmentsStackScreenProps<'AddAssignmentScreen'>) {
 //     const { register, control, setValue, handleSubmit, formState: { errors }, reset } = useForm<AssignmentModel>();

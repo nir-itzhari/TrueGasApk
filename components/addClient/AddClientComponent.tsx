@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { View, Text, StyleSheet, Platform, ScrollView } from 'react-native';

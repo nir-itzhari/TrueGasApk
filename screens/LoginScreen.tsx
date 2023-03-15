@@ -2,7 +2,6 @@ import { StyleSheet, TextInput, TouchableOpacity, Image, Platform } from 'react-
 import { useForm, Controller, FieldValues } from 'react-hook-form';
 import { AuthStackScreenProps } from '../types';
 import { Text, View } from '../components/Themed';
-import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 // import useAxios from '../hooks/useAxios';
@@ -44,7 +43,6 @@ export default function LoginScreen({ navigation }: AuthStackScreenProps<'Login'
     return (
         <View style={styles.container}>
             <Text></Text>
-            <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
             <Image style={styles.image} source={imageSource} />
             <Controller
                 control={control}

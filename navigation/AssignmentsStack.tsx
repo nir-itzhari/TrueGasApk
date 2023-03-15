@@ -1,6 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Pressable, useColorScheme } from "react-native";
+import { Pressable, useColorScheme, View } from "react-native";
 import AddAssignmentScreen from "../components/addAssignmentForm/AddAssignmentForm";
 import { useAppColorScheme } from "../hooks/useAppColorScheme";
 import AddClientScreenModal from "../screens/AddClientScreenModal";
@@ -16,7 +16,7 @@ export function AssignmentsStack() {
     const { appColorScheme } = useAppColorScheme();
 
 
-    
+
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -36,15 +36,22 @@ export function AssignmentsStack() {
                             <MaterialIcons style={{ marginRight: 16 }} name="add-task" size={24} color={appColorScheme === "dark" ? "white" : "black"} />
                         </Pressable>
                     ),
+                    headerBackground: () => <View style={{ backgroundColor: appColorScheme === "dark" ? "#001" : "#ccc", width: "100%", height: "100%" }}></View>
                 })}
             />
             <Stack.Group screenOptions={{ presentation: 'containedModal' }}>
-                <Stack.Screen name="AddClientScreenModal" component={AddClientScreenModal} options={{ title: "הוסף לקוח", headerTitleAlign: 'center' }} />
+                <Stack.Screen name="AddClientScreenModal" component={AddClientScreenModal} options={{
+                    title: "הוסף לקוח", headerTitleAlign: 'center', headerBackground: () => <View style={{ backgroundColor: appColorScheme === "dark" ? "#001" : "#ccc", width: "100%", height: "100%" }}></View>
+                }} />
             </Stack.Group>
             <Stack.Group screenOptions={{ presentation: 'containedModal' }}>
-                <Stack.Screen name="AssignmentCardScreen" component={AssignmentCardScreen} options={{ title: "פרטי משימה", headerTitleAlign: 'center' }} />
+                <Stack.Screen name="AssignmentCardScreen" component={AssignmentCardScreen} options={{
+                    title: "פרטי משימה", headerTitleAlign: 'center', headerBackground: () => <View style={{ backgroundColor: appColorScheme === "dark" ? "#001" : "#ccc", width: "100%", height: "100%" }}></View>
+                }} />
             </Stack.Group>
-            <Stack.Screen name="AddAssignmentScreen" component={AddAssignmentScreen} />
+            <Stack.Screen name="AddAssignmentScreen" component={AddAssignmentScreen} options={{
+                headerBackground: () => <View style={{ backgroundColor: appColorScheme === "dark" ? "#001" : "#ccc", width: "100%", height: "100%" }}></View>
+            }} />
         </Stack.Navigator>
     )
 }

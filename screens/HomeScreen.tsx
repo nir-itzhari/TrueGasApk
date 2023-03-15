@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import { View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
@@ -16,7 +15,6 @@ export default function HomeScreen({ navigation, route }: RootTabScreenProps<'Ho
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
       <Text style={{ ...styles.title, color: appColorScheme === "dark" ? "white" : "black" }}>בית</Text>
       <View>
       </View>

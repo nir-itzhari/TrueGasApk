@@ -50,6 +50,8 @@ export default function BottomTabNavigator() {
               </View>
             </Pressable>
           ),
+          headerBackground:() => <View style={{backgroundColor: appColorScheme === "dark" ? "#001" : "#ccc", width:"100%", height:"100%"}}></View>
+
         })}
       />
       <BottomTab.Screen
@@ -59,6 +61,8 @@ export default function BottomTabNavigator() {
           headerTitleAlign: "center",
           title: 'דוחות',
           tabBarIcon: ({ color }) => <TabBarIcon name="edit" color={color} />,
+          headerBackground:() => <View style={{backgroundColor: appColorScheme === "dark" ? "#001" : "#ccc", width:"100%", height:"100%"}}></View>
+
         }}
       />
       <BottomTab.Screen
@@ -68,6 +72,8 @@ export default function BottomTabNavigator() {
           title: 'משימות',
           headerTitleAlign: "center",
           tabBarIcon: ({ color }) => <TabBarIcon name="tasks" color={color} />,
+          headerBackground:() => <View style={{backgroundColor: appColorScheme === "dark" ? "#001" : "#ccc", width:"100%", height:"100%"}}></View>
+
         }}
       />
     </BottomTab.Navigator>

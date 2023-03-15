@@ -159,7 +159,6 @@
 //         fontWeight: 'bold',
 //     },
 // });
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Button, ToastAndroid, View, ScrollView } from 'react-native';
 import { TouchableOpacity, Text } from 'react-native';
 import { addDays, subDays, format } from 'date-fns';
@@ -266,7 +265,6 @@ export const DataPagnition = ({ handleDatePressed }: DataPagnitionProps) => {
             <TouchableOpacity style={styles.rightButton} onPress={handleMoveRight}>
                 <Text style={styles.arrow}>{'<'}</Text>
             </TouchableOpacity>
-            <StatusBar style="auto" />
         </View>
     );
 };

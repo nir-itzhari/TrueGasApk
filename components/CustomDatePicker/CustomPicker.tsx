@@ -242,7 +242,7 @@ const CustomPicker = ({ onSelect, style, selectedTextStyle, unselectedTextStyle 
                                     </TouchableOpacity>
                                 ))}
                                 <View style={{ alignItems: "center" }}>
-                                    <Text>
+                                    <Text style={{color: appColorScheme === "dark" ? "white"  : "black" }}>
                                         {clients.length === 0 ? "אין תוצאות" : ""}
                                     </Text>
                                 </View>
