@@ -1,5 +1,5 @@
 import { AssignmentsStackScreenProps, RootTabScreenProps } from '../types';
-import { View, StyleSheet, Text, Button, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, Button, ScrollView, Pressable } from 'react-native';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 // import AssignmentsFlatList from '../components/assignmentsFlatList/assignmentsFlatList';
 import { Provider } from 'react-redux';
@@ -12,6 +12,8 @@ import AssignmentModel from './../Models/AssignmentModel';
 import axios from 'axios';
 import config from './../Utils/Config';
 import AssignmentsTable from '../components/assignmentsFlatList/AssignmentsTable';
+import MaterialIcons from '@expo/vector-icons/build/MaterialIcons';
+import { useAppColorScheme } from '../hooks/useAppColorScheme';
 
 export interface Assignment {
     assignmentId: string;
@@ -30,6 +32,8 @@ export interface Assignment {
 
 
 export default function AssignmentsListScreen({ navigation }: AssignmentsStackScreenProps<'AssignmentsListScreen'>) {
+
+    const { appColorScheme } = useAppColorScheme();
     const [assignments, setAssignments] = useState<AssignmentModel[]>(null)
     const dataArray: Assignment[] = [
         { assignmentId: "1", date: new Date(2022, 1, 1), title: 'משימה 1', description: "פירוט", client_id: null, user_id: null, imageFile: null, imageName: null, isDone: false, action: () => { } },
@@ -70,8 +74,21 @@ export default function AssignmentsListScreen({ navigation }: AssignmentsStackSc
 
     return (
         <View style={styles.container}>
+            <Pressable
+                onPress={() => {
+                    navigation.navigate("AddAssignmentScreen");
+                }}
+                style={({ pressed }) => ({
+                    opacity: pressed ? 0.5 : 1,
+                })}>
+                <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
+                    <Text style={{ padding: 10, fontWeight: "bold", color: appColorScheme === "dark" ? '#ffff' : 'black' }}>הוסף משימה</Text>
+
+                    <MaterialIcons name="add-task" size={24} color={appColorScheme === "dark" ? "white" : "black"} />
+                </View>
+            </Pressable>
             <DataPagnition handleDatePressed={handleDatePress} />
-            {/* <Divider /> */}
+
             <View style={{ borderWidth: 1, borderRadius: 8, borderColor: "#ccc", width: "85%", margin: 10, marginHorizontal: 30, opacity: 0.7 }}></View>
             <AssignmentsTable data={dataArray} navigation={navigation} />
             {/* <AssignmentsPagnition data={dataArray} /> */}

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity } from 'react-native';
 import { AssignmentsStackScreenProps } from '../../types';
 import { Button, Dialog, IconButton, Portal, Provider, RadioButton, TextInput, Text as PaperText, Tooltip } from 'react-native-paper';
 import { AuthContext } from '../../navigation/AuthContext';
@@ -11,6 +11,7 @@ import CustomPicker from '../CustomDatePicker/CustomPicker';
 import { useApi } from '../../hooks/useApi';
 import CustomButton from '../button/CustomButton';
 import Memo from '../Memo';
+import { Animated, Easing } from 'react-native';
 
 
 export default function AddAssignmentScreen({ navigation }: AssignmentsStackScreenProps<'AddAssignmentScreen'>) {
@@ -21,6 +22,7 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
     const { isInternetReachable, isServerOnline } = useApi()
     const [loading, setLoading] = useState(false);
     const { appColorScheme } = useAppColorScheme();
+    const [animation] = useState(new Animated.Value(0));
 
     const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
@@ -34,9 +36,9 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
         assignment.user_id = user_id;
         assignment.isDone = isDone === "true" ? true : false
         try {
-            
+
         } catch (error) {
-            
+
         }
         setLoading(false)
         navigation.navigate("AssignmentsListScreen")
@@ -44,113 +46,136 @@ export default function AddAssignmentScreen({ navigation }: AssignmentsStackScre
 
 
     useEffect(() => {
-        navigation.setOptions({
-            title: "הוסף משימה",
-            headerTitleAlign: 'center'
-        })
-    }, [])
+        Animated.timing(animation, {
+            toValue: 1,
+            duration: 500,
+            easing: Easing.out(Easing.ease),
+            useNativeDriver: true,
+        }).start();
+    }, []);
+
+
 
     return (
-        <ScrollView>
-            <View style={styles.formContainer}>
-                <View style={styles.header}>
-                    <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
-                    <Text style={{ ...styles.headerText, color: appColorScheme === "dark" ? "white" : "black" }}>לקוח קיים?</Text>
-                </View>
-                <View style={styles.clientPickerContainer}>
-                    <Memo />
-                    {isSwitchOn ? (
-                        <Controller
-                            control={control}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <CustomPicker onSelect={onChange} />
-                            )}
-                            name="client_id"
-                        // rules={{ required: true }}
-                        />
-                    ) : (
-                        // <CustomButton mode="outlined" color="#F44336" onPress={() => navigation.navigate("AddClientScreenModal")}>Or press me!</CustomButton>
-                        <Button style={{ margin: 10 }} icon="plus" mode="contained" onPress={() => navigation.navigate("AddClientScreenModal")}>הוסף לקוח</Button>
-                    )}
-                    {errors.client_id && <Text style={styles.error}>*שדה חובה</Text>}
-                </View>
-                <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                        <AssignmentDatePicker value={value} onChange={onChange} />
-                    )}
-                    name="date"
-                    rules={{ required: true }}
-                />
-                {errors.date && <Text style={styles.error}>*שדה חובה</Text>}
+        <Animated.View style={{
+            flex: 1,
+            transform: [
+                {
+                    translateY: animation.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [500, 0],
+                    }),
+                },
+            ],
+        }}>
+            <ScrollView>
+                <TouchableOpacity onPress={() => navigation.navigate('AssignmentsListScreen')}>
+                    <View style={{ borderWidth: 2, borderRadius: 25, paddingHorizontal: 2, position: "absolute", top: 15, right: 15, borderColor: appColorScheme === "dark" ? "white" : "black" }}>
 
-                <Controller
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            label="כותרת"
-                            mode="outlined"
-                            onChangeText={onChange}
-                            onBlur={onBlur}
-                            value={value}
-                            style={styles.input}
-                            error={errors.title ? true : false}
-                        />
-                    )}
-                    name="title"
-                    rules={{ required: true, minLength: 2 }}
-                    defaultValue=""
-                />
-                {errors.title && <Text style={styles.error}>*שדה חובה</Text>}
+                        <MaterialIcons name="arrow-back" size={24} color={appColorScheme === "dark" ? "white" : "black"} />
 
-                <Controller
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            label="תיאור"
-                            mode="outlined"
-                            onChangeText={onChange}
-                            onBlur={onBlur}
-                            value={value}
-                            style={styles.input}
-                            multiline
-                            numberOfLines={10}
-                            error={errors.description ? true : false}
-                        />
-                    )}
-                    name="description"
-                    rules={{ required: true }}
-                    defaultValue=""
-                />
-                {errors.description && <Text style={styles.error}>*שדה חובה</Text>}
+                    </View>
+                </TouchableOpacity>
+                <View style={styles.formContainer}>
+                    <View style={styles.header}>
+                        <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+                        <Text style={{ ...styles.headerText, color: appColorScheme === "dark" ? "white" : "black" }}>לקוח קיים?</Text>
+                    </View>
+                    <View style={styles.clientPickerContainer}>
+                        <Memo />
+                        {isSwitchOn ? (
+                            <Controller
+                                control={control}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <CustomPicker onSelect={onChange} />
+                                )}
+                                name="client_id"
+                            // rules={{ required: true }}
+                            />
+                        ) : (
+                            <Button style={{ margin: 10 }} icon="plus" mode="contained" onPress={() => navigation.navigate("AddClientScreenModal")}>הוסף לקוח</Button>
+                        )}
+                        {errors.client_id && <Text style={styles.error}>*שדה חובה</Text>}
+                    </View>
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                            <AssignmentDatePicker value={value} onChange={onChange} />
+                        )}
+                        name="date"
+                        rules={{ required: true }}
+                    />
+                    {errors.date && <Text style={styles.error}>*שדה חובה</Text>}
 
-               <ImagePickerExample />
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                label="כותרת"
+                                mode="outlined"
+                                onChangeText={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                style={styles.input}
+                                error={errors.title ? true : false}
+                            />
+                        )}
+                        name="title"
+                        rules={{ required: true, minLength: 2 }}
+                        defaultValue=""
+                    />
+                    {errors.title && <Text style={styles.error}>*שדה חובה</Text>}
 
-                <View style={styles.isDoneContainer}>
-                    <Text style={{ color: appColorScheme === "dark" ? "white" : "black" }}>בוצעה?</Text>
-                    <RadioButton.Group onValueChange={handleIsDoneChange} value={isDone}>
-                        <View style={styles.radioButtonContainer}>
-                            <RadioButton value="true" />
-                            <Text style={{ ...styles.radioButtonText, color: appColorScheme === "dark" ? "white" : "black" }}>כן</Text>
-                        </View>
-                        <View style={styles.radioButtonContainer}>
-                            <RadioButton value="false" />
-                            <Text style={{ ...styles.radioButtonText, color: appColorScheme === "dark" ? "white" : "black" }}>לא</Text>
-                        </View>
-                    </RadioButton.Group>
-                </View>
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                label="תיאור"
+                                mode="outlined"
+                                onChangeText={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                style={styles.input}
+                                multiline
+                                numberOfLines={10}
+                                error={errors.description ? true : false}
+                            />
+                        )}
+                        name="description"
+                        rules={{ required: true }}
+                        defaultValue=""
+                    />
+                    {errors.description && <Text style={styles.error}>*שדה חובה</Text>}
 
-                <Button
-                    disabled={loading}
-                    mode="contained"
-                    style={styles.button}
-                    onPress={handleSubmit(onSubmit)}
-                    loading={loading}
-                >
-                    {loading ? 'שולח...' : 'הוסף משימה'}
-                </Button>
-            </View >
-        </ScrollView>
+                    <ImagePickerExample />
+
+                    <View style={styles.isDoneContainer}>
+                        <Text style={{ color: appColorScheme === "dark" ? "white" : "black" }}>בוצעה?</Text>
+                        <RadioButton.Group onValueChange={handleIsDoneChange} value={isDone}>
+                            <View style={styles.radioButtonContainer}>
+                                <RadioButton value="true" />
+                                <Text style={{ ...styles.radioButtonText, color: appColorScheme === "dark" ? "white" : "black" }}>כן</Text>
+                            </View>
+                            <View style={styles.radioButtonContainer}>
+                                <RadioButton value="false" />
+                                <Text style={{ ...styles.radioButtonText, color: appColorScheme === "dark" ? "white" : "black" }}>לא</Text>
+                            </View>
+                        </RadioButton.Group>
+                    </View>
+
+                    <Button
+                        disabled={loading}
+                        mode="contained"
+                        style={styles.button}
+                        onPress={handleSubmit(onSubmit)}
+                        loading={loading}
+                    >
+                        {loading ? 'שולח...' : 'הוסף משימה'}
+                    </Button>
+                </View >
+            </ScrollView>
+        </Animated.View >
+
     );
 }
 const styles = StyleSheet.create({
@@ -216,6 +241,7 @@ const styles = StyleSheet.create({
 import { useColorScheme } from 'react-native';
 import { useAppColorScheme } from '../../hooks/useAppColorScheme';
 import ImagePickerExample from './ImagePicker';
+import MaterialIcons from '@expo/vector-icons/build/MaterialIcons';
 
 // export default function AddAssignmentScreen({ navigation }: AssignmentsStackScreenProps<'AddAssignmentScreen'>) {
 //     const { register, control, setValue, handleSubmit, formState: { errors }, reset } = useForm<AssignmentModel>();

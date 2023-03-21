@@ -51,7 +51,7 @@ export type RootTabParamList = {
   Home: { user_id: string };
   Reports: undefined;
   Assignments: NavigatorScreenParams<AssignmentsStackParamList> | undefined;
-  AddAssignment: undefined;
+  AddAssignmentScreen: undefined;
   AddClientScreenModal: undefined;
   AssignmentCardScreen: { assignmentId: string }
 

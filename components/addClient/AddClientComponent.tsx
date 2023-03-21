@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { View, Text, StyleSheet, Platform, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Platform, ScrollView, TouchableOpacity } from 'react-native';
 import { Button, Switch, TextInput } from 'react-native-paper';
 import { ClientModel } from '../../Models/ClientModel';
 import RadioGroup from '../RadioButton';
@@ -8,12 +8,15 @@ import { IsBuildingForm } from './IsBuildingForm';
 import { NameAndAddressForm } from './NameAndAddressForm';
 import { useColorScheme } from 'react-native';
 import { useAppColorScheme } from '../../hooks/useAppColorScheme';
+import MaterialIcons from '@expo/vector-icons/build/MaterialIcons';
 
+interface Props {
+  handlePress: () => void
+}
 
-export default function AddClientForm() {
+export default function AddClientForm({ handlePress }: Props) {
   const { register, control, handleSubmit, reset, formState: { errors }, } = useForm<ClientModel>();
   const { appColorScheme } = useAppColorScheme();
-
   const [phoneTwo, setphoneTwo] = useState<boolean>(false);
   const onToggleSwitch = () => setphoneTwo(!phoneTwo);
   const [buildingType, setBuildingType] = useState('house');
@@ -27,11 +30,20 @@ export default function AddClientForm() {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false}>
+
+
       <View style={{ ...styles.form, shadowColor: appColorScheme === "dark" ? 'white' : "#000000", backgroundColor: appColorScheme === "dark" ? "black" : "white" }}>
+      <TouchableOpacity onPress={handlePress}>
+        <View style={{position:"absolute", right:0, borderWidth: 2, borderRadius: 25, paddingHorizontal: 2, borderColor: appColorScheme === "dark" ? "white" : "black" }}>
+
+          <MaterialIcons name="arrow-back" size={24} color={appColorScheme === "dark" ? "white" : "black"} />
+
+        </View>
+      </TouchableOpacity>
         <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
           <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginHorizontal: 0 }}>
             <Switch value={phoneTwo} onValueChange={onToggleSwitch} />
-            <Text style={{color: appColorScheme === "dark" ? "white" : "black"}}>נייד נוסף?</Text>
+            <Text style={{ color: appColorScheme === "dark" ? "white" : "black" }}>נייד נוסף?</Text>
           </View>
           <RadioGroup
             options={[

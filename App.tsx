@@ -139,7 +139,7 @@ const App: React.FC = () => {
                 <MaterialIcons style={{ marginRight: 16, marginLeft: 5 }} name="logout" size={24} color={appColorScheme === "dark" ? "white" : "black"} />
               </View>
             </Pressable> */}
-            <StatusBar barStyle={appColorScheme === "dark" ? "light-content" : "dark-content"} backgroundColor={appColorScheme === "dark" ? "black" : "#ECF0F1"} />
+            <StatusBar barStyle={appColorScheme === "dark" ? "light-content" : "dark-content"} backgroundColor={appColorScheme === "dark" ? "black" : "#fdbb2d"} />
           </AppColorSchemeContext.Provider>
         </KeyboardAvoidingView>
       </AuthProvider>

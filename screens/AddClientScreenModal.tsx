@@ -1,15 +1,48 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import AddClientForm from '../components/addClient/AddClientComponent';
 import { AssignmentsStackScreenProps } from '../types';
+import { Animated, Easing } from 'react-native';
+import MaterialIcons from '@expo/vector-icons/build/MaterialIcons';
+import { useAppColorScheme } from '../hooks/useAppColorScheme';
 
-export default function AddClientScreenModal() {
+export default function AddClientScreenModal({ route, navigation }: AssignmentsStackScreenProps<"AddClientScreenModal">) {
+  const [animation] = useState(new Animated.Value(0));
+  const { appColorScheme } = useAppColorScheme();
+
+
+  const handlePress = () => {
+    navigation.goBack()
+  }
+
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: 1,
+      duration: 500,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: true,
+    }).start();
+  }, []);
 
 
   return (
-      <View style={styles.form}>
-        <AddClientForm />
+    <Animated.View style={{
+      flex: 1,
+      transform: [
+        {
+          translateY: animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [500, 0],
+          }),
+        },
+      ],
+    }}>
+
+      <View>
+        <AddClientForm handlePress={handlePress} />
       </View>
+    </Animated.View>
   );
 };
 
