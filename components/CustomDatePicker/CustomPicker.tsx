@@ -184,7 +184,7 @@ const CustomPicker = ({ onSelect, style, selectedTextStyle, unselectedTextStyle 
 
     const getClients = async () => {
         try {
-            const result = await axios.get<ClientModel[]>(config.baseUrl + '/clients');
+            const result = await axios.get<ClientModel[]>(config.clientstsUrl);
             const transformedData = result.data.map((client: ClientModel): PickerItem => {
                 return {
                     id: client._id,
